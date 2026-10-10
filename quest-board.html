@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quest Board - EduQuest</title>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">
+                <span>🎮</span>
+                <span>EduQuest</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="student-dashboard.html">Dashboard</a></li>
+                <li><a href="quest-board.html" class="active">Quest Board</a></li>
+                <li><a href="my-quests.html">My Quests</a></li>
+                <li><a href="guild.html">Guild</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile" onclick="window.location.href='profile.html'">
+                <div class="user-avatar">⚔️</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">Loading...</div>
+                    <div class="user-level" id="userLevel">Level --</div>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>🎯 Quest Board</h1>
+            <p>Discover new adventures and challenges to level up your skills!</p>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="search-filter-section">
+            <div class="search-bar">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="searchInput"
+                        placeholder="Search quests by title, description, or lecturer..."
+                    >
+                </div>
+                <button class="search-btn" onclick="filterQuests()">Search</button>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label>📚 Category</label>
+                    <select class="filter-select" id="categoryFilter" onchange="filterQuests()">
+                        <option value="all">All Categories</option>
+                        <option value="database">Database Design</option>
+                        <option value="web">Web Development</option>
+                        <option value="programming">Programming</option>
+                        <option value="algorithms">Algorithms</option>
+                        <option value="networking">Networking</option>
+                        <option value="security">Security</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>⚔️ Difficulty</label>
+                    <select class="filter-select" id="difficultyFilter" onchange="filterQuests()">
+                        <option value="all">All Difficulties</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                        <option value="epic">Epic</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>⭐ XP Range</label>
+                    <select class="filter-select" id="xpFilter" onchange="filterQuests()">
+                        <option value="all">All XP</option>
+                        <option value="0-200">0 - 200 XP</option>
+                        <option value="201-400">201 - 400 XP</option>
+                        <option value="401-600">401 - 600 XP</option>
+                        <option value="601+">601+ XP</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>⏰ Status</label>
+                    <select class="filter-select" id="statusFilter" onchange="filterQuests()">
+                        <option value="all">All Quests</option>
+                        <option value="available">Available</option>
+                        <option value="accepted">Accepted</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-tags">
+                <div class="filter-tag active" data-tag="all" onclick="quickFilter('all')">
+                    🌟 All Quests
+                </div>
+                <div class="filter-tag" data-tag="new" onclick="quickFilter('new')">
+                    ✨ New This Week
+                </div>
+                <div class="filter-tag" data-tag="popular" onclick="quickFilter('popular')">
+                    🔥 Popular
+                </div>
+                <div class="filter-tag" data-tag="deadline" onclick="quickFilter('deadline')">
+                    ⏰ Deadline Soon
+                </div>
+            </div>
+        </div>
+
+        <!-- Quest Stats and View Toggle -->
+        <div class="quest-stats">
+            <div class="quest-count">
+                <span id="questCount">0</span> Quests Available
+            </div>
+            <div class="view-toggle">
+                <button class="toggle-btn active" onclick="changeView('grid')" title="Grid View">
+                    ▦
+                </button>
+                <button class="toggle-btn" onclick="changeView('list')" title="List View">
+                    ☰
+                </button>
+            </div>
+        </div>
+
+        <!-- Quests Container -->
+        <div class="quests-container">
+            <div class="quests-grid" id="questsGrid">
+                <!-- Quest cards will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let allQuests = [];
+        let filteredQuests = [];
+        let currentUser = null;
+
+        // Check authentication
+        function checkAuth() {
+            const userData = sessionStorage.getItem('currentUser');
+            if (!userData) {
+                window.location.href = 'student-login.html';
+                return null;
+            }
+            return JSON.parse(userData);
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'student-login.html';
+        }
+
+        // Get category display name
+        function getCategoryName(slug) {
+            const categories = {
+                'database': 'Database Design',
+                'web': 'Web Development',
+                'programming': 'Programming',
+                'algorithms': 'Algorithms',
+                'networking': 'Networking',
+                'security': 'Security'
+            };
+            return categories[slug] || slug;
+        }
+
+        // Calculate days until deadline
+        function getDaysUntilDeadline(deadlineStr) {
+            const deadline = new Date(deadlineStr);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            deadline.setHours(0, 0, 0, 0);
+            
+            const diffTime = deadline - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays < 0) return 'Overdue';
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Tomorrow';
+            if (diffDays <= 7) return `${diffDays} days`;
+            if (diffDays <= 14) return '1 week';
+            if (diffDays <= 30) return `${Math.floor(diffDays / 7)} weeks`;
+            return `${Math.floor(diffDays / 30)} months`;
+        }
+
+        // Load quests from localStorage
+        function loadAllQuests() {
+            try {
+                // Load quests created by lecturers
+                const savedQuests = JSON.parse(localStorage.getItem('quests')) || [];
+                
+                console.log('Loaded quests from localStorage:', savedQuests);
+                
+                // Load user's accepted quests
+                const acceptedQuestIds = JSON.parse(localStorage.getItem(`acceptedQuests_${currentUser.id}`)) || [];
+                
+                console.log('User accepted quests:', acceptedQuestIds);
+                
+                // Transform saved quests to display format
+                return savedQuests.map(quest => ({
+                    id: quest.id,
+                    title: quest.title,
+                    category: getCategoryName(quest.category),
+                    categorySlug: quest.category,
+                    description: quest.description,
+                    difficulty: quest.difficulty,
+                    xpReward: quest.xpReward,
+                    lecturer: quest.lecturerName,
+                    deadline: getDaysUntilDeadline(quest.deadline),
+                    deadlineDate: quest.deadline,
+                    icon: quest.icon,
+                    accepted: acceptedQuestIds.includes(quest.id),
+                    hasPrerequisite: false,
+                    popularity: Math.floor(Math.random() * 30) + 70,
+                    createdAt: quest.createdAt
+                }));
+            } catch (error) {
+                console.error('Error loading quests:', error);
+                return [];
+            }
+        }
+
+        // Load user data
+        function loadUserData() {
+            if (!currentUser) return;
+
+            const studentData = {
+                1: { name: 'Alex Johnson', displayName: 'DragonSlayer', level: 7 },
+                2: { name: 'Sarah Williams', displayName: 'CodeMaster', level: 10 },
+                3: { name: 'Mike Chen', displayName: 'BugHunter', level: 6 },
+                4: { name: 'Emma Davis', displayName: 'PixelQueen', level: 5 },
+                5: { name: 'John Smith', displayName: 'SpeedDemon', level: 4 }
+            };
+
+            const data = studentData[currentUser.id] || studentData[1];
+
+            document.getElementById('userName').textContent = data.displayName;
+            document.getElementById('userLevel').textContent = `Level ${data.level}`;
+        }
+
+        // Render quests
+        function renderQuests(quests) {
+            const questsGrid = document.getElementById('questsGrid');
+            const questCount = document.getElementById('questCount');
+            
+            questCount.textContent = quests.length;
+
+            if (quests.length === 0) {
+                questsGrid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <h3>No quests found</h3>
+                        <p>Try adjusting your filters or search criteria</p>
+                        <p style="margin-top: 15px; font-size: 14px; color: #999;">
+                            Lecturers can create new quests from the Lecturer Portal
+                        </p>
+                        <button class="browse-btn" onclick="window.location.href='create-quest.html'" 
+                                style="margin-top: 20px; padding: 10px 20px; background: #667eea; 
+                                color: white; border: none; border-radius: 8px; cursor: pointer;">
+                            Go to Lecturer Portal
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            questsGrid.innerHTML = quests.map(quest => `
+                <div class="quest-card" onclick="viewQuestDetail(${quest.id})">
+                    <div class="quest-card-header">
+                        <div class="quest-icon">${quest.icon}</div>
+                        <span class="quest-difficulty difficulty-${quest.difficulty}">
+                            ${quest.difficulty.toUpperCase()}
+                        </span>
+                    </div>
+                    <div class="quest-title">${quest.title}</div>
+                    <span class="quest-category">📚 ${quest.category}</span>
+                    ${quest.hasPrerequisite ? '<div class="prerequisite-badge">🔒 Prerequisites Required</div>' : ''}
+                    <div class="quest-description">${quest.description}</div>
+                    <div class="quest-meta">
+                        <div class="meta-item">
+                            <span>👤</span>
+                            <span>${quest.lecturer}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>⏰</span>
+                            <span>Due: ${quest.deadline}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>🔥</span>
+                            <span>${quest.popularity}% popularity</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>👥</span>
+                            <span>${Math.floor(Math.random() * 50) + 10} enrolled</span>
+                        </div>
+                    </div>
+                    <div class="quest-footer">
+                        <div class="xp-badge">
+                            ⭐ ${quest.xpReward} XP
+                        </div>
+                        ${quest.accepted 
+                            ? '<div class="accepted-badge">✓ Accepted</div>'
+                            : '<button class="accept-btn" onclick="acceptQuest(event, ' + quest.id + ')">Accept Quest</button>'
+                        }
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter quests
+        function filterQuests() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            const difficulty = document.getElementById('difficultyFilter').value;
+            const xpRange = document.getElementById('xpFilter').value;
+            const status = document.getElementById('statusFilter').value;
+
+            filteredQuests = allQuests.filter(quest => {
+                // Search filter
+                const matchesSearch = quest.title.toLowerCase().includes(searchTerm) ||
+                                    quest.description.toLowerCase().includes(searchTerm) ||
+                                    quest.lecturer.toLowerCase().includes(searchTerm);
+
+                // Category filter
+                const matchesCategory = category === 'all' || quest.categorySlug === category;
+
+                // Difficulty filter
+                const matchesDifficulty = difficulty === 'all' || quest.difficulty === difficulty;
+
+                // XP filter
+                let matchesXP = true;
+                if (xpRange !== 'all') {
+                    if (xpRange === '0-200') matchesXP = quest.xpReward <= 200;
+                    else if (xpRange === '201-400') matchesXP = quest.xpReward > 200 && quest.xpReward <= 400;
+                    else if (xpRange === '401-600') matchesXP = quest.xpReward > 400 && quest.xpReward <= 600;
+                    else if (xpRange === '601+') matchesXP = quest.xpReward > 600;
+                }
+
+                // Status filter
+                const matchesStatus = status === 'all' || 
+                                    (status === 'available' && !quest.accepted) ||
+                                    (status === 'accepted' && quest.accepted);
+
+                return matchesSearch && matchesCategory && matchesDifficulty && matchesXP && matchesStatus;
+            });
+
+            renderQuests(filteredQuests);
+        }
+
+        // Quick filter
+        function quickFilter(tag) {
+            // Update active tag
+            document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+            document.querySelector(`[data-tag="${tag}"]`).classList.add('active');
+
+            // Reset filters
+            document.getElementById('categoryFilter').value = 'all';
+            document.getElementById('difficultyFilter').value = 'all';
+            document.getElementById('xpFilter').value = 'all';
+            document.getElementById('statusFilter').value = 'all';
+            document.getElementById('searchInput').value = '';
+
+            // Apply quick filter
+            if (tag === 'all') {
+                filteredQuests = [...allQuests];
+            } else if (tag === 'new') {
+                // Filter quests created in last week
+                const oneWeekAgo = new Date();
+                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+                filteredQuests = allQuests.filter(q => {
+                    const createdDate = new Date(q.createdAt);
+                    return createdDate >= oneWeekAgo;
+                });
+            } else if (tag === 'popular') {
+                filteredQuests = allQuests.filter(q => q.popularity >= 85);
+            } else if (tag === 'deadline') {
+                filteredQuests = allQuests.filter(q => {
+                    const deadline = new Date(q.deadlineDate);
+                    const today = new Date();
+                    const diffDays = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+                    return diffDays >= 0 && diffDays <= 5;
+                });
+            }
+
+            renderQuests(filteredQuests);
+        }
+
+        // Accept quest
+        function acceptQuest(event, questId) {
+            event.stopPropagation();
+            
+            if (!currentUser) return;
+            
+            const quest = allQuests.find(q => q.id === questId);
+            if (quest) {
+                try {
+                    // Save accepted quest to localStorage
+                    const acceptedQuestIds = JSON.parse(localStorage.getItem(`acceptedQuests_${currentUser.id}`)) || [];
+                    
+                    if (!acceptedQuestIds.includes(questId)) {
+                        acceptedQuestIds.push(questId);
+                        localStorage.setItem(`acceptedQuests_${currentUser.id}`, JSON.stringify(acceptedQuestIds));
+                        console.log('Quest accepted:', questId);
+                    }
+                    
+                    // Update UI
+                    quest.accepted = true;
+                    renderQuests(filteredQuests);
+                    
+                    // Show notification
+                    alert(`✓ Quest "${quest.title}" accepted successfully!\nYou can now start working on it from "My Quests" page.`);
+                } catch (error) {
+                    console.error('Error accepting quest:', error);
+                    alert('Error accepting quest. Please try again.');
+                }
+            }
+        }
+
+        // View quest detail
+        function viewQuestDetail(questId) {
+            window.location.href = `quest-detail.html?id=${questId}`;
+        }
+
+        // Change view
+        function changeView(view) {
+            const toggleBtns = document.querySelectorAll('.toggle-btn');
+            toggleBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            console.log('View changed to:', view);
+        }
+
+        // Initialize page
+        function initializePage() {
+            console.log('🎯 Initializing Quest Board...');
+            
+            // Check authentication
+            currentUser = checkAuth();
+            if (!currentUser) return;
+            
+            console.log('Current user:', currentUser);
+            
+            // Load user data
+            loadUserData();
+            
+            // Load quests
+            allQuests = loadAllQuests();
+            filteredQuests = [...allQuests];
+            
+            console.log(`Loaded ${allQuests.length} quests`);
+            
+            // Render quests
+            renderQuests(filteredQuests);
+            
+            console.log('%c🎯 Quest Board Loaded Successfully', 'color: #667eea; font-size: 16px; font-weight: bold;');
+            console.log(`%c${allQuests.length} quests available from localStorage`, 'color: #764ba2; font-size: 14px;');
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializePage);
+        } else {
+            initializePage();
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guild - EduQuest</title>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">
+                <span>🎮</span>
+                <span>EduQuest</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="student-dashboard.html">Dashboard</a></li>
+                <li><a href="quest-board.html">Quest Board</a></li>
+                <li><a href="my-quests.html">My Quests</a></li>
+                <li><a href="guild.html" class="active">Guild</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile" onclick="window.location.href='profile.html'">
+                <div class="user-avatar">⚔️</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">Loading...</div>
+                    <div class="user-level" id="userLevel">Level --</div>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Guild Header Card -->
+        <div class="guild-header-card">
+            <div class="guild-header-content">
+                <div class="guild-top">
+                    <div class="guild-icon-large">⚔️</div>
+                    <div class="guild-info">
+                        <h1 class="guild-name">The Code Warriors</h1>
+                        <p class="guild-motto">"Code, Conquer, Collaborate"</p>
+                        <div class="guild-stats-row">
+                            <div class="guild-stat-badge">
+                                <span>👥</span>
+                                <span>5 Members</span>
+                            </div>
+                            <div class="guild-stat-badge">
+                                <span>🏆</span>
+                                <span>Rank #3</span>
+                            </div>
+                            <div class="guild-stat-badge">
+                                <span>⭐</span>
+                                <span>9,800 XP</span>
+                            </div>
+                            <div class="guild-stat-badge">
+                                <span>📅</span>
+                                <span>Created 2 weeks ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guild-actions">
+                    <button class="action-btn action-btn-primary" onclick="inviteMember()">
+                        👥 Invite Member
+                    </button>
+                    <button class="action-btn action-btn-secondary" onclick="editGuild()">
+                        ⚙️ Guild Settings
+                    </button>
+                    <button class="action-btn action-btn-secondary" onclick="window.location.href='leaderboard.html'">
+                        📊 View Rankings
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Left Column -->
+            <div>
+                <!-- Members Card -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <span class="card-header-icon">👥</span>
+                            <h2>Guild Members</h2>
+                        </div>
+                        <button class="add-btn" onclick="inviteMember()">+</button>
+                    </div>
+                    <div class="members-list">
+                        <div class="member-item" onclick="window.location.href='profile.html?id=1'">
+                            <div class="member-avatar">⚔️</div>
+                            <div class="member-info">
+                                <div class="member-name">Alex Johnson</div>
+                                <div class="member-role">👑 Guild Leader</div>
+                            </div>
+                            <div class="member-stats">
+                                <div class="member-level">Level 7</div>
+                                <div class="member-xp">1,850 XP</div>
+                            </div>
+                        </div>
+
+                        <div class="member-item" onclick="window.location.href='profile.html?id=4'">
+                            <div class="member-avatar">🎨</div>
+                            <div class="member-info">
+                                <div class="member-name">Emma Davis</div>
+                                <div class="member-role">⚔️ Officer</div>
+                            </div>
+                            <div class="member-stats">
+                                <div class="member-level">Level 5</div>
+                                <div class="member-xp">950 XP</div>
+                            </div>
+                        </div>
+
+                        <div class="member-item" onclick="window.location.href='profile.html?id=5'">
+                            <div class="member-avatar">⚡</div>
+                            <div class="member-info">
+                                <div class="member-name">John Smith</div>
+                                <div class="member-role">🛡️ Member</div>
+                            </div>
+                            <div class="member-stats">
+                                <div class="member-level">Level 4</div>
+                                <div class="member-xp">600 XP</div>
+                            </div>
+                        </div>
+
+                        <div class="member-item">
+                            <div class="member-avatar">💻</div>
+                            <div class="member-info">
+                                <div class="member-name">James Taylor</div>
+                                <div class="member-role">🛡️ Member</div>
+                            </div>
+                            <div class="member-stats">
+                                <div class="member-level">Level 5</div>
+                                <div class="member-xp">890 XP</div>
+                            </div>
+                        </div>
+
+                        <div class="member-item">
+                            <div class="member-avatar">✨</div>
+                            <div class="member-info">
+                                <div class="member-name">Anna Garcia</div>
+                                <div class="member-role">🛡️ Member</div>
+                            </div>
+                            <div class="member-stats">
+                                <div class="member-level">Level 6</div>
+                                <div class="member-xp">1,450 XP</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guild Quests Card -->
+                <div class="content-card" style="margin-top: 30px;">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <span class="card-header-icon">🎯</span>
+                            <h2>Guild Quests</h2>
+                        </div>
+                    </div>
+                    <div class="quest-item" onclick="window.location.href='quest-detail.html?id=10'">
+                        <div class="quest-header-row">
+                            <div>
+                                <div class="quest-title">Team Database Project</div>
+                                <span style="font-size: 13px; color: #666;">Collaborative Assignment</span>
+                            </div>
+                            <span class="quest-difficulty difficulty-hard">HARD</span>
+                        </div>
+                        <div class="quest-meta">
+                            <span>⭐ 500 XP</span>
+                            <span>⏰ Due in 5 days</span>
+                            <span>👥 All members</span>
+                        </div>
+                    </div>
+
+                    <div class="quest-item" onclick="window.location.href='quest-detail.html?id=11'">
+                        <div class="quest-header-row">
+                            <div>
+                                <div class="quest-title">Group Presentation</div>
+                                <span style="font-size: 13px; color: #666;">Software Engineering</span>
+                            </div>
+                            <span class="quest-difficulty difficulty-medium">MEDIUM</span>
+                        </div>
+                        <div class="quest-meta">
+                            <span>⭐ 350 XP</span>
+                            <span>⏰ Due in 1 week</span>
+                            <span>👥 3 members assigned</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <!-- Guild Chat Card -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <span class="card-header-icon">💬</span>
+                            <h2>Guild Chat</h2>
+                        </div>
+                    </div>
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="chat-message">
+                                <div class="chat-avatar">⚔️</div>
+                                <div class="chat-content">
+                                    <div class="chat-header">
+                                        <span class="chat-author">Alex Johnson</span>
+                                        <span class="chat-time">2 hours ago</span>
+                                    </div>
+                                    <div class="chat-text">
+                                        Hey team! Don't forget about the database project deadline this Friday. Let's schedule a meeting tomorrow?
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chat-message">
+                                <div class="chat-avatar">🎨</div>
+                                <div class="chat-content">
+                                    <div class="chat-header">
+                                        <span class="chat-author">Emma Davis</span>
+                                        <span class="chat-time">1 hour ago</span>
+                                    </div>
+                                    <div class="chat-text">
+                                        Sounds good! I'm free after 2 PM tomorrow. Should we meet in the library?
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chat-message">
+                                <div class="chat-avatar">⚡</div>
+                                <div class="chat-content">
+                                    <div class="chat-header">
+                                        <span class="chat-author">John Smith</span>
+                                        <span class="chat-time">45 minutes ago</span>
+                                    </div>
+                                    <div class="chat-text">
+                                        I can make it! I've already finished the normalization part. Can share my notes 📝
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chat-message">
+                                <div class="chat-avatar">💻</div>
+                                <div class="chat-content">
+                                    <div class="chat-header">
+                                        <span class="chat-author">James Taylor</span>
+                                        <span class="chat-time">30 minutes ago</span>
+                                    </div>
+                                    <div class="chat-text">
+                                        Great! I'll work on the SQL queries tonight. See you all tomorrow! 🚀
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input 
+                                type="text" 
+                                class="chat-input" 
+                                id="chatInput"
+                                placeholder="Type a message..."
+                                onkeypress="if(event.key==='Enter') sendMessage()"
+                            >
+                            <button class="send-btn" onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guild Statistics Card -->
+                <div class="content-card" style="margin-top: 30px;">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <span class="card-header-icon">📊</span>
+                            <h2>Guild Statistics</h2>
+                        </div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-box-icon">🎯</div>
+                            <span class="stat-box-value">32</span>
+                            <span class="stat-box-label">Quests Completed</span>
+                        </div>
+
+                        <div class="stat-box">
+                            <div class="stat-box-icon">⭐</div>
+                            <span class="stat-box-value">1,960</span>
+                            <span class="stat-box-label">Avg XP/Member</span>
+                        </div>
+
+                        <div class="stat-box">
+                            <div class="stat-box-icon">📈</div>
+                            <span class="stat-box-value">87%</span>
+                            <span class="stat-box-label">Success Rate</span>
+                        </div>
+
+                        <div class="stat-box">
+                            <div class="stat-box-icon">🔥</div>
+                            <span class="stat-box-value">14</span>
+                            <span class="stat-box-label">Day Streak</span>
+                        </div>
+
+                        <div class="stat-box">
+                            <div class="stat-box-icon">👥</div>
+                            <span class="stat-box-value">5/8</span>
+                            <span class="stat-box-label">Members</span>
+                        </div>
+
+                        <div class="stat-box">
+                            <div class="stat-box-icon">🏆</div>
+                            <span class="stat-box-value">#3</span>
+                            <span class="stat-box-label">Global Rank</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'student-login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'student-login.html';
+        }
+
+        // Load user data
+        function loadUserData() {
+            const user = checkAuth();
+            if (!user) return;
+
+            const studentData = {
+                1: { name: 'Alex Johnson', displayName: 'DragonSlayer', level: 7 },
+                2: { name: 'Sarah Williams', displayName: 'CodeMaster', level: 10 },
+                3: { name: 'Mike Chen', displayName: 'BugHunter', level: 6 },
+                4: { name: 'Emma Davis', displayName: 'PixelQueen', level: 5 },
+                5: { name: 'John Smith', displayName: 'SpeedDemon', level: 4 }
+            };
+
+            const data = studentData[user.id] || studentData[1];
+
+            document.getElementById('userName').textContent = data.displayName;
+            document.getElementById('userLevel').textContent = `Level ${data.level}`;
+        }
+
+        // Invite member
+        function inviteMember() {
+            const email = prompt('Enter student email to invite:');
+            if (email) {
+                alert(`✓ Invitation sent to ${email}!\nThey will receive a notification to join your guild.`);
+            }
+        }
+
+        // Edit guild
+        function editGuild() {
+            alert('Guild settings will open here. You can:\n\n• Change guild name\n• Update motto\n• Manage member permissions\n• Set guild icon');
+        }
+
+        // Send message
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                const chatMessages = document.getElementById('chatMessages');
+                const newMessage = document.createElement('div');
+                newMessage.className = 'chat-message';
+                newMessage.innerHTML = `
+                    <div class="chat-avatar">⚔️</div>
+                    <div class="chat-content">
+                        <div class="chat-header">
+                            <span class="chat-author">You</span>
+                            <span class="chat-time">Just now</span>
+                        </div>
+                        <div class="chat-text">${message}</div>
+                    </div>
+                `;
+                chatMessages.appendChild(newMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                input.value = '';
+            }
+        }
+
+        // Auto-scroll chat to bottom
+        window.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+
+        console.log('%c⚔️ Guild Page Loaded', 'color: #667eea; font-size: 16px; font-weight: bold;');
+        console.log('%cThe Code Warriors - Rank #3', 'color: #764ba2; font-size: 14px;');
+    </script>
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Quests - EduQuest</title>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">
+                <span>🎮</span>
+                <span>EduQuest</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="student-dashboard.html">Dashboard</a></li>
+                <li><a href="quest-board.html">Quest Board</a></li>
+                <li><a href="my-quests.html" class="active">My Quests</a></li>
+                <li><a href="guild.html">Guild</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile" onclick="window.location.href='profile.html'">
+                <div class="user-avatar">⚔️</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">Loading...</div>
+                    <div class="user-level" id="userLevel">Level --</div>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-content">
+                <h1>⚔️ My Quests</h1>
+                <div class="header-stats">
+                    <div class="stat-badge">
+                        <span>🎯</span>
+                        <span id="activeCount">3</span> Active
+                    </div>
+                    <div class="stat-badge">
+                        <span>✅</span>
+                        <span id="completedCount">12</span> Completed
+                    </div>
+                    <div class="stat-badge">
+                        <span>⭐</span>
+                        <span id="totalXP">4,250</span> XP Earned
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Container -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab active" data-tab="all" onclick="switchTab('all')">
+                    📋 All Quests
+                    <span class="tab-badge" id="allBadge">15</span>
+                </button>
+                <button class="tab" data-tab="active" onclick="switchTab('active')">
+                    🔥 Active
+                    <span class="tab-badge" id="activeBadge">3</span>
+                </button>
+                <button class="tab" data-tab="submitted" onclick="switchTab('submitted')">
+                    📤 Submitted
+                    <span class="tab-badge" id="submittedBadge">2</span>
+                </button>
+                <button class="tab" data-tab="completed" onclick="switchTab('completed')">
+                    ✅ Completed
+                    <span class="tab-badge" id="completedBadge">10</span>
+                </button>
+            </div>
+
+            <!-- Search and Sort -->
+            <div class="search-sort">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="searchInput"
+                        placeholder="Search your quests..."
+                        oninput="filterQuests()"
+                    >
+                </div>
+                <select class="sort-dropdown" id="sortDropdown" onchange="filterQuests()">
+                    <option value="deadline">Sort by Deadline</option>
+                    <option value="xp-high">Sort by XP (High to Low)</option>
+                    <option value="xp-low">Sort by XP (Low to High)</option>
+                    <option value="progress">Sort by Progress</option>
+                    <option value="recent">Recently Added</option>
+                </select>
+            </div>
+
+            <!-- Quest List -->
+            <div class="quest-list" id="questList">
+                <!-- Quests will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'student-login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'student-login.html';
+        }
+
+        // Mock quest data
+        const myQuests = [
+            {
+                id: 1,
+                icon: '📊',
+                title: 'Database Normalization Master',
+                category: 'Database Design',
+                difficulty: 'hard',
+                xpReward: 350,
+                lecturer: 'Dr. Sarah Chen',
+                deadline: '3 days',
+                status: 'in-progress',
+                progress: 75,
+                startedDate: '5 days ago'
+            },
+            {
+                id: 2,
+                icon: '🌐',
+                title: 'Build a Portfolio Website',
+                category: 'Web Development',
+                difficulty: 'medium',
+                xpReward: 250,
+                lecturer: 'Prof. Ahmad Rahman',
+                deadline: '5 days',
+                status: 'in-progress',
+                progress: 40,
+                startedDate: '3 days ago'
+            },
+            {
+                id: 3,
+                icon: '💻',
+                title: 'JavaScript Algorithm Challenge',
+                category: 'Programming',
+                difficulty: 'medium',
+                xpReward: 300,
+                lecturer: 'Dr. Lisa Wong',
+                deadline: '7 days',
+                status: 'in-progress',
+                progress: 10,
+                startedDate: '1 day ago'
+            },
+            {
+                id: 4,
+                icon: '🎨',
+                title: 'CSS Animation Workshop',
+                category: 'Web Development',
+                difficulty: 'easy',
+                xpReward: 180,
+                lecturer: 'Prof. Ahmad Rahman',
+                deadline: 'Submitted 2 days ago',
+                status: 'submitted',
+                progress: 100,
+                startedDate: '10 days ago',
+                submittedDate: '2 days ago'
+            },
+            {
+                id: 5,
+                icon: '🐍',
+                title: 'Python Data Structures',
+                category: 'Programming',
+                difficulty: 'medium',
+                xpReward: 280,
+                lecturer: 'Dr. James Taylor',
+                deadline: 'Submitted 1 week ago',
+                status: 'submitted',
+                progress: 100,
+                startedDate: '3 weeks ago',
+                submittedDate: '1 week ago'
+            },
+            {
+                id: 6,
+                icon: '📱',
+                title: 'Mobile-First Design',
+                category: 'Web Development',
+                difficulty: 'medium',
+                xpReward: 220,
+                lecturer: 'Prof. Ahmad Rahman',
+                deadline: 'Completed',
+                status: 'completed',
+                progress: 100,
+                grade: 92,
+                xpEarned: 202,
+                feedback: 'Excellent work! Your responsive design shows great attention to detail and mobile UX best practices.',
+                completedDate: '2 weeks ago'
+            },
+            {
+                id: 7,
+                icon: '💾',
+                title: 'SQL Query Basics',
+                category: 'Database Design',
+                difficulty: 'easy',
+                xpReward: 150,
+                lecturer: 'Dr. Sarah Chen',
+                deadline: 'Completed',
+                status: 'completed',
+                progress: 100,
+                grade: 88,
+                xpEarned: 132,
+                feedback: 'Great understanding of SQL fundamentals. Try optimizing your queries further.',
+                completedDate: '3 weeks ago'
+            },
+            {
+                id: 8,
+                icon: '🔒',
+                title: 'Web Security Fundamentals',
+                category: 'Security',
+                difficulty: 'hard',
+                xpReward: 380,
+                lecturer: 'Dr. Kevin Martinez',
+                deadline: 'Completed',
+                status: 'completed',
+                progress: 100,
+                grade: 95,
+                xpEarned: 361,
+                feedback: 'Outstanding work! You demonstrated excellent understanding of security concepts.',
+                completedDate: '1 month ago'
+            }
+        ];
+
+        let currentTab = 'all';
+        let filteredQuests = [...myQuests];
+
+        // Load user data
+        function loadUserData() {
+            const user = checkAuth();
+            if (!user) return;
+
+            const studentData = {
+                1: { name: 'Alex Johnson', displayName: 'DragonSlayer', level: 7 },
+                2: { name: 'Sarah Williams', displayName: 'CodeMaster', level: 10 },
+                3: { name: 'Mike Chen', displayName: 'BugHunter', level: 6 },
+                4: { name: 'Emma Davis', displayName: 'PixelQueen', level: 5 },
+                5: { name: 'John Smith', displayName: 'SpeedDemon', level: 4 }
+            };
+
+            const data = studentData[user.id] || studentData[1];
+
+            document.getElementById('userName').textContent = data.displayName;
+            document.getElementById('userLevel').textContent = `Level ${data.level}`;
+
+            // Update stats
+            updateStats();
+        }
+
+        // Update statistics
+        function updateStats() {
+            const active = myQuests.filter(q => q.status === 'in-progress').length;
+            const completed = myQuests.filter(q => q.status === 'completed').length;
+            const totalXP = myQuests.filter(q => q.status === 'completed')
+                .reduce((sum, q) => sum + q.xpEarned, 0);
+
+            document.getElementById('activeCount').textContent = active;
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('totalXP').textContent = totalXP.toLocaleString();
+
+            // Update tab badges
+            document.getElementById('allBadge').textContent = myQuests.length;
+            document.getElementById('activeBadge').textContent = active;
+            document.getElementById('submittedBadge').textContent = myQuests.filter(q => q.status === 'submitted').length;
+            document.getElementById('completedBadge').textContent = completed;
+        }
+
+        // Switch tab
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+
+            filterQuests();
+        }
+
+        // Filter quests
+        function filterQuests() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const sortBy = document.getElementById('sortDropdown').value;
+
+            // Filter by tab
+            let quests = myQuests;
+            if (currentTab === 'active') {
+                quests = myQuests.filter(q => q.status === 'in-progress');
+            } else if (currentTab === 'submitted') {
+                quests = myQuests.filter(q => q.status === 'submitted');
+            } else if (currentTab === 'completed') {
+                quests = myQuests.filter(q => q.status === 'completed');
+            }
+
+            // Filter by search
+            if (searchTerm) {
+                quests = quests.filter(q => 
+                    q.title.toLowerCase().includes(searchTerm) ||
+                    q.category.toLowerCase().includes(searchTerm) ||
+                    q.lecturer.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Sort
+            if (sortBy === 'xp-high') {
+                quests.sort((a, b) => b.xpReward - a.xpReward);
+            } else if (sortBy === 'xp-low') {
+                quests.sort((a, b) => a.xpReward - b.xpReward);
+            } else if (sortBy === 'progress') {
+                quests.sort((a, b) => b.progress - a.progress);
+            }
+
+            filteredQuests = quests;
+            renderQuests();
+        }
+
+        // Render quests
+        function renderQuests() {
+            const questList = document.getElementById('questList');
+
+            if (filteredQuests.length === 0) {
+                questList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <h3>No quests found</h3>
+                        <p>Time to embark on a new adventure!</p>
+                        <button class="browse-btn" onclick="window.location.href='quest-board.html'">
+                            Browse Quest Board
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            questList.innerHTML = filteredQuests.map(quest => `
+                <div class="quest-item" onclick="window.location.href='quest-detail.html?id=${quest.id}'">
+                    <div class="quest-item-header">
+                        <div class="quest-item-left">
+                            <div class="quest-icon-box">${quest.icon}</div>
+                            <div class="quest-info">
+                                <div class="quest-title-row">
+                                    <span class="quest-item-title">${quest.title}</span>
+                                    <span class="difficulty-badge difficulty-${quest.difficulty}">
+                                        ${quest.difficulty.toUpperCase()}
+                                    </span>
+                                </div>
+                                <div class="quest-category">📚 ${quest.category}</div>
+                                <div class="quest-meta-row">
+                                    <div class="meta-item">
+                                        <span>👤</span>
+                                        <span>${quest.lecturer}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span>⏰</span>
+                                        <span>${quest.deadline}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span>📅</span>
+                                        <span>Started ${quest.startedDate}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quest-item-right">
+                            <div class="xp-badge">⭐ ${quest.xpReward} XP</div>
+                            <span class="status-badge status-${quest.status}">
+                                ${quest.status === 'in-progress' ? '🔄 In Progress' : 
+                                  quest.status === 'submitted' ? '📤 Submitted' : 
+                                  '✅ Completed'}
+                            </span>
+                        </div>
+                    </div>
+
+                    ${quest.status === 'in-progress' ? `
+                        <div class="progress-section">
+                            <div class="progress-header">
+                                <span>Progress</span>
+                                <span>${quest.progress}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${quest.progress}%"></div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${quest.status === 'completed' ? `
+                        <div class="grade-display">
+                            <div class="grade-header">
+                                <span style="font-weight: 600; color: #333;">Final Grade</span>
+                                <span class="grade-score">${quest.grade}%</span>
+                            </div>
+                            <div class="meta-item" style="margin-bottom: 8px;">
+                                <span>⭐</span>
+                                <span>XP Earned: <strong>${quest.xpEarned}</strong></span>
+                            </div>
+                            <div class="feedback-text">
+                                <strong>Feedback:</strong> ${quest.feedback}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            filterQuests();
+        });
+
+        console.log('%c⚔️ My Quests Loaded', 'color: #667eea; font-size: 16px; font-weight: bold;');
+        console.log(`%c${myQuests.length} total quests`, 'color: #764ba2; font-size: 14px;');
+    </script>
+</body>
+</html>

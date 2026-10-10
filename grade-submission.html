@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Submission - EduQuest</title>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">
+                <span>🎓</span>
+                <span>EduQuest</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="lecturer-dashboard.html">Dashboard</a></li>
+                <li><a href="create-quest.html">Create Quest</a></li>
+                <li><a href="grade-submission.html" class="active">Grade Submissions</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <button class="back-btn" onclick="window.location.href='lecturer-dashboard.html'">
+                ← Back
+            </button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Submission Header -->
+        <div class="submission-header">
+            <div class="header-content">
+                <div class="student-info">
+                    <div class="student-avatar-large">⚔️</div>
+                    <div class="student-details">
+                        <h1>Alex Johnson's Submission</h1>
+                        <p>Level 7 • DragonSlayer • alex@student.com</p>
+                    </div>
+                </div>
+
+                <div class="submission-meta">
+                    <div class="meta-badge">
+                        <span class="meta-label">Submitted</span>
+                        <span class="meta-value">2 hours ago</span>
+                    </div>
+                    <div class="meta-badge">
+                        <span class="meta-label">Status</span>
+                        <span class="meta-value">Pending Review</span>
+                    </div>
+                    <div class="meta-badge">
+                        <span class="meta-label">Quest XP</span>
+                        <span class="meta-value">350 XP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Left Column -->
+            <div>
+                <!-- Quest Information -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">📊</span>
+                        <h2>Quest Information</h2>
+                    </div>
+
+                    <div class="quest-info-section">
+                        <div class="info-item">
+                            <span class="info-label">Quest Title:</span>
+                            <span class="info-value">Database Normalization Master</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Category:</span>
+                            <span class="info-value">Database Design</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Difficulty:</span>
+                            <span class="info-value">🔴 Hard</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Deadline:</span>
+                            <span class="info-value">Feb 3, 2026</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Submission Type:</span>
+                            <span class="info-value">Individual</span>
+                        </div>
+                    </div>
+
+                    <div class="rubric-section">
+                        <strong style="display: block; margin-bottom: 15px;">Grading Rubric:</strong>
+                        <div class="rubric-item">
+                            <span class="rubric-name">Normalization to 3NF</span>
+                            <span class="rubric-weight">40%</span>
+                        </div>
+                        <div class="rubric-item">
+                            <span class="rubric-name">ERD Quality</span>
+                            <span class="rubric-weight">30%</span>
+                        </div>
+                        <div class="rubric-item">
+                            <span class="rubric-name">Documentation</span>
+                            <span class="rubric-weight">20%</span>
+                        </div>
+                        <div class="rubric-item">
+                            <span class="rubric-name">SQL Implementation</span>
+                            <span class="rubric-weight">10%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submitted Files -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">📎</span>
+                        <h2>Submitted Files</h2>
+                    </div>
+
+                    <div class="files-list">
+                        <div class="file-item">
+                            <div class="file-info">
+                                <span class="file-icon">📄</span>
+                                <div class="file-details">
+                                    <h4>database_normalization_report.pdf</h4>
+                                    <p>2.4 MB • Uploaded 2 hours ago</p>
+                                </div>
+                            </div>
+                            <button class="download-btn" onclick="downloadFile('report')">Download</button>
+                        </div>
+
+                        <div class="file-item">
+                            <div class="file-info">
+                                <span class="file-icon">💾</span>
+                                <div class="file-details">
+                                    <h4>schema_implementation.sql</h4>
+                                    <p>45 KB • Uploaded 2 hours ago</p>
+                                </div>
+                            </div>
+                            <button class="download-btn" onclick="downloadFile('sql')">Download</button>
+                        </div>
+
+                        <div class="file-item">
+                            <div class="file-info">
+                                <span class="file-icon">🖼️</span>
+                                <div class="file-details">
+                                    <h4>erd_diagram.png</h4>
+                                    <p>1.1 MB • Uploaded 2 hours ago</p>
+                                </div>
+                            </div>
+                            <button class="download-btn" onclick="downloadFile('erd')">Download</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <strong>Student Comments:</strong>
+                        <p style="margin-top: 10px; color: #666; line-height: 1.6;">
+                            "I've completed all normalization steps up to 3NF and provided detailed explanations for each step. The ERD includes all entities, relationships, and cardinalities. SQL implementation includes all CREATE TABLE statements with proper constraints."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Grading Section -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">✅</span>
+                        <h2>Grade Submission</h2>
+                    </div>
+
+                    <form class="grading-form" id="gradingForm">
+                        <div class="form-group">
+                            <label class="form-label">Final Grade (%)</label>
+                            <div class="grade-input-container">
+                                <input 
+                                    type="number" 
+                                    class="grade-input" 
+                                    id="gradeInput"
+                                    min="0"
+                                    max="100"
+                                    placeholder="0"
+                                    required
+                                >
+                                <span class="grade-suffix">%</span>
+                            </div>
+                            <div class="xp-calculator-result">
+                                <h3>XP to be Awarded</h3>
+                                <div class="xp-value" id="xpResult">0 XP</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Feedback for Student</label>
+                            <textarea 
+                                class="form-textarea" 
+                                id="feedbackText"
+                                placeholder="Provide constructive feedback on the submission..."
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="rejectSubmission()">
+                                ✕ Request Resubmission
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                ✓ Submit Grade
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div>
+                <!-- Student Performance -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">📊</span>
+                        <h2>Student Stats</h2>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Current Level</span>
+                            <span class="stat-value">Level 7</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Total XP</span>
+                            <span class="stat-value">1,850</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Quests Completed</span>
+                            <span class="stat-value">12</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Average Grade</span>
+                            <span class="stat-value">88%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Submission Rate</span>
+                            <span class="stat-value">92%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Current Rank</span>
+                            <span class="stat-value">#2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Previous Submissions -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">📚</span>
+                        <h2>Previous Submissions</h2>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div style="padding: 12px; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-weight: 600; color: #333; margin-bottom: 5px;">SQL Query Mastery</div>
+                            <div style="font-size: 13px; color: #666;">Grade: <strong style="color: #4caf50;">92%</strong></div>
+                            <div style="font-size: 12px; color: #999; margin-top: 3px;">2 weeks ago</div>
+                        </div>
+
+                        <div style="padding: 12px; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-weight: 600; color: #333; margin-bottom: 5px;">Database Fundamentals</div>
+                            <div style="font-size: 13px; color: #666;">Grade: <strong style="color: #4caf50;">85%</strong></div>
+                            <div style="font-size: 12px; color: #999; margin-top: 3px;">1 month ago</div>
+                        </div>
+
+                        <div style="padding: 12px; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-weight: 600; color: #333; margin-bottom: 5px;">ERD Design Basics</div>
+                            <div style="font-size: 13px; color: #666;">Grade: <strong style="color: #4caf50;">90%</strong></div>
+                            <div style="font-size: 12px; color: #999; margin-top: 3px;">1 month ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'lecturer-login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'lecturer-login.html';
+        }
+
+        // Calculate XP based on grade
+        const baseXP = 350;
+        document.getElementById('gradeInput').addEventListener('input', function() {
+            const grade = parseFloat(this.value) || 0;
+            const xp = Math.round((grade / 100) * baseXP);
+            document.getElementById('xpResult').textContent = `${xp} XP`;
+        });
+
+        // Download file
+        function downloadFile(type) {
+            alert(`📥 Downloading ${type} file...`);
+        }
+
+        // Form submission
+        document.getElementById('gradingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const grade = document.getElementById('gradeInput').value;
+            const feedback = document.getElementById('feedbackText').value;
+            const xp = Math.round((grade / 100) * baseXP);
+
+            if (!grade || !feedback) {
+                alert('⚠️ Please provide both grade and feedback.');
+                return;
+            }
+
+            console.log('Grading Data:', { grade, feedback, xp });
+            
+            alert(`✓ Grade submitted successfully!\n\nGrade: ${grade}%\nXP Awarded: ${xp} XP\n\nThe student has been notified and received their XP.`);
+            
+            setTimeout(() => {
+                window.location.href = 'lecturer-dashboard.html';
+            }, 1000);
+        });
+
+        // Reject submission
+        function rejectSubmission() {
+            const reason = prompt('Please provide a reason for requesting resubmission:');
+            if (reason) {
+                alert('✓ Resubmission request sent to student.\n\nThe student will be notified and can resubmit their work.');
+                setTimeout(() => {
+                    window.location.href = 'lecturer-dashboard.html';
+                }, 1000);
+            }
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+
+        console.log('%c✅ Grade Submission Loaded', 'color: #f5576c; font-size: 16px; font-weight: bold;');
+    </script>
+</body>
+</html>

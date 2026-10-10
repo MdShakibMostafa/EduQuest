@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - EduQuest</title>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">
+                <span>🎮</span>
+                <span>EduQuest</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="student-dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="quest-board.html">Quest Board</a></li>
+                <li><a href="my-quests.html">My Quests</a></li>
+                <li><a href="guild.html">Guild</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile" onclick="window.location.href='profile.html'">
+                <div class="user-avatar">⚔️</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">Loading...</div>
+                    <div class="user-level" id="userLevel">Level --</div>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <div class="welcome-header">
+                <div class="welcome-text">
+                    <h1>Welcome back, <span id="welcomeName">Adventurer</span>! ⚔️</h1>
+                    <p>Ready to continue your learning adventure?</p>
+                </div>
+                <div class="quick-stats">
+                    <div class="stat-badge">
+                        <span>🔥</span>
+                        <span id="streakDays">7</span> Day Streak
+                    </div>
+                    <div class="stat-badge">
+                        <span>✅</span>
+                        <span id="completedQuests">12</span> Quests Completed
+                    </div>
+                </div>
+            </div>
+
+            <!-- XP Progress -->
+            <div class="xp-section">
+                <div class="xp-header">
+                    <h2>Level <span id="currentLevel">7</span></h2>
+                    <div class="xp-numbers">
+                        <span id="currentXP">1,850</span> / <span id="nextLevelXP">2,000</span> XP
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="xpProgressBar" style="width: 92.5%;">
+                        92.5%
+                    </div>
+                </div>
+                <div class="xp-info">
+                    <span id="xpToNext">150</span> XP needed to reach Level <span id="nextLevel">8</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Left Column - Active Quests -->
+            <div>
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>🎯 Active Quests</h2>
+                        <a href="my-quests.html" class="view-all-btn">
+                            View All →
+                        </a>
+                    </div>
+
+                    <div id="activeQuestsContainer">
+                        <!-- Quest Card 1 -->
+                        <div class="quest-card" onclick="window.location.href='quest-detail.html?id=1'">
+                            <div class="quest-header">
+                                <div>
+                                    <div class="quest-title">Database Normalization Master</div>
+                                    <span class="quest-category">📊 Database Design</span>
+                                </div>
+                                <span class="difficulty-badge difficulty-hard">Hard</span>
+                            </div>
+                            <div class="quest-meta">
+                                <span>⭐ 350 XP</span>
+                                <span>⏰ Due in 3 days</span>
+                                <span>👤 Dr. Sarah Chen</span>
+                            </div>
+                            <div class="quest-progress">
+                                <div style="display: flex; justify-content: space-between; font-size: 13px; color: #666; margin-bottom: 5px;">
+                                    <span>Progress</span>
+                                    <span>75%</span>
+                                </div>
+                                <div class="quest-progress-bar">
+                                    <div class="quest-progress-fill" style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quest Card 2 -->
+                        <div class="quest-card" onclick="window.location.href='quest-detail.html?id=2'">
+                            <div class="quest-header">
+                                <div>
+                                    <div class="quest-title">Build a Portfolio Website</div>
+                                    <span class="quest-category">🌐 Web Development</span>
+                                </div>
+                                <span class="difficulty-badge difficulty-medium">Medium</span>
+                            </div>
+                            <div class="quest-meta">
+                                <span>⭐ 250 XP</span>
+                                <span>⏰ Due in 5 days</span>
+                                <span>👤 Prof. Ahmad Rahman</span>
+                            </div>
+                            <div class="quest-progress">
+                                <div style="display: flex; justify-content: space-between; font-size: 13px; color: #666; margin-bottom: 5px;">
+                                    <span>Progress</span>
+                                    <span>40%</span>
+                                </div>
+                                <div class="quest-progress-bar">
+                                    <div class="quest-progress-fill" style="width: 40%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quest Card 3 -->
+                        <div class="quest-card" onclick="window.location.href='quest-detail.html?id=3'">
+                            <div class="quest-header">
+                                <div>
+                                    <div class="quest-title">JavaScript Algorithm Challenge</div>
+                                    <span class="quest-category">💻 Programming</span>
+                                </div>
+                                <span class="difficulty-badge difficulty-medium">Medium</span>
+                            </div>
+                            <div class="quest-meta">
+                                <span>⭐ 300 XP</span>
+                                <span>⏰ Due in 7 days</span>
+                                <span>👤 Dr. Lisa Wong</span>
+                            </div>
+                            <div class="quest-progress">
+                                <div style="display: flex; justify-content: space-between; font-size: 13px; color: #666; margin-bottom: 5px;">
+                                    <span>Progress</span>
+                                    <span>10%</span>
+                                </div>
+                                <div class="quest-progress-bar">
+                                    <div class="quest-progress-fill" style="width: 10%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Sidebar -->
+            <div>
+                <!-- Recent Achievements -->
+                <div class="section-card achievements-section">
+                    <div class="section-header">
+                        <h2>🏆 Recent Achievements</h2>
+                        <a href="profile.html#achievements" class="view-all-btn">
+                            View All →
+                        </a>
+                    </div>
+                    <div class="achievement-grid">
+                        <div class="achievement-badge unlocked" title="First Quest Completed">
+                            <div class="achievement-icon">🎯</div>
+                            <div class="achievement-name">First Quest</div>
+                        </div>
+                        <div class="achievement-badge unlocked" title="Early Submission">
+                            <div class="achievement-icon">⚡</div>
+                            <div class="achievement-name">Speed Demon</div>
+                        </div>
+                        <div class="achievement-badge unlocked" title="Created a Guild">
+                            <div class="achievement-icon">👑</div>
+                            <div class="achievement-name">Guild Master</div>
+                        </div>
+                        <div class="achievement-badge locked" title="Locked: Complete 10 quests">
+                            <div class="achievement-icon">💯</div>
+                            <div class="achievement-name">Perfect Score</div>
+                        </div>
+                        <div class="achievement-badge locked" title="Locked: Help 5 guild members">
+                            <div class="achievement-icon">🤝</div>
+                            <div class="achievement-name">Team Player</div>
+                        </div>
+                        <div class="achievement-badge locked" title="Locked: 30 day streak">
+                            <div class="achievement-icon">🔥</div>
+                            <div class="achievement-name">On Fire</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guild Card -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>⚔️ Your Guild</h2>
+                        <a href="guild.html" class="view-all-btn">
+                            View →
+                        </a>
+                    </div>
+                    <div class="guild-card">
+                        <div class="guild-header">
+                            <div class="guild-name">The Code Warriors</div>
+                            <div class="guild-rank">Rank #3</div>
+                        </div>
+                        <div class="guild-members">
+                            👥 5 Members • 🏆 2,450 Guild XP
+                        </div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span class="stat-value">15</span>
+                            <span class="stat-label">Guild Quests</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-value">87%</span>
+                            <span class="stat-label">Success Rate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'student-login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'student-login.html';
+        }
+
+        // Load user data
+        function loadUserData() {
+            const user = checkAuth();
+            if (!user) return;
+
+            // Mock student data (will be replaced with real database)
+            const studentData = {
+                1: { name: 'Alex Johnson', displayName: 'DragonSlayer', level: 7, currentXP: 1850, maxXP: 2000, streak: 7, completed: 12 },
+                2: { name: 'Sarah Williams', displayName: 'CodeMaster', level: 10, currentXP: 2500, maxXP: 3000, streak: 15, completed: 25 },
+                3: { name: 'Mike Chen', displayName: 'BugHunter', level: 6, currentXP: 1200, maxXP: 1800, streak: 5, completed: 10 },
+                4: { name: 'Emma Davis', displayName: 'PixelQueen', level: 5, currentXP: 950, maxXP: 1500, streak: 4, completed: 8 },
+                5: { name: 'John Smith', displayName: 'SpeedDemon', level: 4, currentXP: 600, maxXP: 1200, streak: 3, completed: 6 }
+            };
+
+            const data = studentData[user.id] || studentData[1];
+
+            // Update UI
+            document.getElementById('userName').textContent = data.displayName;
+            document.getElementById('userLevel').textContent = `Level ${data.level}`;
+            document.getElementById('welcomeName').textContent = data.name.split(' ')[0];
+            document.getElementById('currentLevel').textContent = data.level;
+            document.getElementById('currentXP').textContent = data.currentXP.toLocaleString();
+            document.getElementById('nextLevelXP').textContent = data.maxXP.toLocaleString();
+            document.getElementById('nextLevel').textContent = data.level + 1;
+            document.getElementById('streakDays').textContent = data.streak;
+            document.getElementById('completedQuests').textContent = data.completed;
+
+            // Calculate XP progress
+            const xpPercentage = (data.currentXP / data.maxXP * 100).toFixed(1);
+            const xpToNext = data.maxXP - data.currentXP;
+            document.getElementById('xpToNext').textContent = xpToNext.toLocaleString();
+            
+            const progressBar = document.getElementById('xpProgressBar');
+            progressBar.style.width = xpPercentage + '%';
+            progressBar.textContent = xpPercentage + '%';
+        }
+
+        // Initialize dashboard
+        window.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            
+            // Animate XP bar
+            setTimeout(() => {
+                const progressBar = document.getElementById('xpProgressBar');
+                progressBar.style.transition = 'width 1.5s ease';
+            }, 100);
+        });
+
+        // Console log
+        console.log('%c🎮 Student Dashboard Loaded', 'color: #667eea; font-size: 16px; font-weight: bold;');
+        console.log('%cWelcome to EduQuest!', 'color: #764ba2; font-size: 14px;');
+    </script>
+</body>
+</html>

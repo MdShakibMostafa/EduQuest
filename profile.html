@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - EduQuest</title>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">
+                <span>🎮</span>
+                <span>EduQuest</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="student-dashboard.html">Dashboard</a></li>
+                <li><a href="quest-board.html">Quest Board</a></li>
+                <li><a href="my-quests.html">My Quests</a></li>
+                <li><a href="guild.html">Guild</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <button class="back-btn" onclick="window.history.back()">
+                ← Back
+            </button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Profile Header Card -->
+        <div class="profile-header-card">
+            <div class="profile-content">
+                <div class="profile-top">
+                    <div class="profile-avatar-section">
+                        <div class="profile-avatar-large" id="profileAvatar">⚔️</div>
+                        <button class="change-avatar-btn" onclick="changeAvatar()">Change Avatar</button>
+                    </div>
+                    <div class="profile-info">
+                        <h1 class="profile-name" id="profileName">Alex Johnson</h1>
+                        <p class="profile-display-name" id="displayName">"DragonSlayer"</p>
+                        <div class="profile-stats-row">
+                            <div class="profile-stat">
+                                <span class="profile-stat-value" id="profileLevel">7</span>
+                                <span class="profile-stat-label">Level</span>
+                            </div>
+                            <div class="profile-stat">
+                                <span class="profile-stat-value" id="profileXP">1,850</span>
+                                <span class="profile-stat-label">Total XP</span>
+                            </div>
+                            <div class="profile-stat">
+                                <span class="profile-stat-value" id="profileRank">#2</span>
+                                <span class="profile-stat-label">Global Rank</span>
+                            </div>
+                            <div class="profile-stat">
+                                <span class="profile-stat-value" id="streakDays">7</span>
+                                <span class="profile-stat-label">Day Streak</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="xp-progress-section">
+                    <div class="xp-header">
+                        <span style="font-size: 18px; font-weight: 600;">Level Progress</span>
+                        <span id="xpText">1,850 / 2,000 XP</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="xpProgressBar" style="width: 92.5%">92.5%</div>
+                    </div>
+                    <p style="margin-top: 10px; font-size: 14px; opacity: 0.9;">
+                        150 XP needed to reach Level 8
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Left Column -->
+            <div>
+                <!-- Achievements Card -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">🏆</span>
+                        <h2>Achievements</h2>
+                        <span style="color: #999; font-size: 14px;">5 / 12 Unlocked</span>
+                    </div>
+                    <div class="achievements-grid">
+                        <div class="achievement-item unlocked">
+                            <span class="achievement-icon-large">🎯</span>
+                            <div class="achievement-name">First Quest</div>
+                            <div class="achievement-desc">Complete your first quest</div>
+                            <div class="achievement-date">Unlocked 3 weeks ago</div>
+                        </div>
+
+                        <div class="achievement-item unlocked">
+                            <span class="achievement-icon-large">⚡</span>
+                            <div class="achievement-name">Speed Demon</div>
+                            <div class="achievement-desc">Submit 5 quests early</div>
+                            <div class="achievement-date">Unlocked 2 weeks ago</div>
+                        </div>
+
+                        <div class="achievement-item unlocked">
+                            <span class="achievement-icon-large">👑</span>
+                            <div class="achievement-name">Guild Master</div>
+                            <div class="achievement-desc">Create a guild</div>
+                            <div class="achievement-date">Unlocked 2 weeks ago</div>
+                        </div>
+
+                        <div class="achievement-item unlocked">
+                            <span class="achievement-icon-large">📚</span>
+                            <div class="achievement-name">Scholar</div>
+                            <div class="achievement-desc">Complete 10 quests</div>
+                            <div class="achievement-date">Unlocked 1 week ago</div>
+                        </div>
+
+                        <div class="achievement-item unlocked">
+                            <span class="achievement-icon-large">🔥</span>
+                            <div class="achievement-name">On Fire</div>
+                            <div class="achievement-desc">7 day streak</div>
+                            <div class="achievement-date">Unlocked today</div>
+                        </div>
+
+                        <div class="achievement-item locked">
+                            <span class="achievement-icon-large">💯</span>
+                            <div class="achievement-name">Perfect Score</div>
+                            <div class="achievement-desc">Get 100% on a quest</div>
+                        </div>
+
+                        <div class="achievement-item locked">
+                            <span class="achievement-icon-large">🤝</span>
+                            <div class="achievement-name">Team Player</div>
+                            <div class="achievement-desc">Help 5 guild members</div>
+                        </div>
+
+                        <div class="achievement-item locked">
+                            <span class="achievement-icon-large">🌟</span>
+                            <div class="achievement-name">Rising Star</div>
+                            <div class="achievement-desc">Reach Level 10</div>
+                        </div>
+
+                        <div class="achievement-item locked">
+                            <span class="achievement-icon-large">💎</span>
+                            <div class="achievement-name">Diamond League</div>
+                            <div class="achievement-desc">Reach top 5 in leaderboard</div>
+                        </div>
+
+                        <div class="achievement-item locked">
+                            <span class="achievement-icon-large">🎓</span>
+                            <div class="achievement-name">Master Scholar</div>
+                            <div class="achievement-desc">Complete 50 quests</div>
+                        </div>
+
+                        <div class="achievement-item locked">
+                            <span class="achievement-icon-large">🚀</span>
+                            <div class="achievement-name">Speedrunner</div>
+                            <div class="achievement-desc">Complete quest in record time</div>
+                        </div>
+
+                        <div class="achievement-item locked">
+                            <span class="achievement-icon-large">👹</span>
+                            <div class="achievement-name">Boss Slayer</div>
+                            <div class="achievement-desc">Complete 5 Epic quests</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Card -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">📅</span>
+                        <h2>Recent Activity</h2>
+                    </div>
+                    <div class="activity-timeline">
+                        <div class="activity-item">
+                            <div class="activity-time">2 hours ago</div>
+                            <div class="activity-content">
+                                Unlocked achievement <strong>🔥 On Fire</strong>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-time">5 hours ago</div>
+                            <div class="activity-content">
+                                Submitted quest <strong>Database Normalization Master</strong>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-time">Yesterday</div>
+                            <div class="activity-content">
+                                Earned <strong>250 XP</strong> from completing CSS Animation Workshop
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-time">2 days ago</div>
+                            <div class="activity-content">
+                                Accepted new quest <strong>JavaScript Algorithm Challenge</strong>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-time">3 days ago</div>
+                            <div class="activity-content">
+                                Invited <strong>Emma Davis</strong> to join The Code Warriors guild
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-time">1 week ago</div>
+                            <div class="activity-content">
+                                Unlocked achievement <strong>📚 Scholar</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div>
+                <!-- Stats Card -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">📊</span>
+                        <h2>Statistics</h2>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span class="stat-box-icon">✅</span>
+                            <span class="stat-box-value">12</span>
+                            <span class="stat-box-label">Completed Quests</span>
+                        </div>
+
+                        <div class="stat-box">
+                            <span class="stat-box-icon">🔥</span>
+                            <span class="stat-box-value">3</span>
+                            <span class="stat-box-label">Active Quests</span>
+                        </div>
+
+                        <div class="stat-box">
+                            <span class="stat-box-icon">⏱️</span>
+                            <span class="stat-box-value">42h</span>
+                            <span class="stat-box-label">Time Invested</span>
+                        </div>
+
+                        <div class="stat-box">
+                            <span class="stat-box-icon">📈</span>
+                            <span class="stat-box-value">88%</span>
+                            <span class="stat-box-label">Avg. Score</span>
+                        </div>
+
+                        <div class="stat-box">
+                            <span class="stat-box-icon">🎯</span>
+                            <span class="stat-box-value">92%</span>
+                            <span class="stat-box-label">On-Time Rate</span>
+                        </div>
+
+                        <div class="stat-box">
+                            <span class="stat-box-icon">🏆</span>
+                            <span class="stat-box-value">5</span>
+                            <span class="stat-box-label">Achievements</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guild Card -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">⚔️</span>
+                        <h2>Guild</h2>
+                    </div>
+                    <div class="guild-badge">
+                        <div class="guild-icon-large">⚔️</div>
+                        <div class="guild-name">The Code Warriors</div>
+                        <div class="guild-rank">Rank #3 • Guild Leader</div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span class="stat-box-value">5</span>
+                            <span class="stat-box-label">Members</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-box-value">9,800</span>
+                            <span class="stat-box-label">Guild XP</span>
+                        </div>
+                    </div>
+                    <button style="width: 100%; margin-top: 15px; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;" onclick="window.location.href='guild.html'">
+                        View Guild →
+                    </button>
+                </div>
+
+                <!-- Skills Card -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">📖</span>
+                        <h2>Skills</h2>
+                    </div>
+                    <div class="skills-list">
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                <span class="skill-name">Database Design</span>
+                                <span class="skill-level">Level 7</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                <span class="skill-name">Web Development</span>
+                                <span class="skill-level">Level 6</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="width: 70%"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                <span class="skill-name">Programming</span>
+                                <span class="skill-level">Level 5</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="width: 60%"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="skill-header">
+                                <span class="skill-name">Algorithms</span>
+                                <span class="skill-level">Level 4</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="width: 45%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'student-login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'student-login.html';
+        }
+
+        // Mock profile data
+        const profileData = {
+            1: { 
+                name: 'Alex Johnson', 
+                displayName: 'DragonSlayer', 
+                level: 7, 
+                currentXP: 1850, 
+                maxXP: 2000, 
+                rank: 2,
+                streak: 7,
+                avatar: '⚔️'
+            },
+            2: { 
+                name: 'Sarah Williams', 
+                displayName: 'CodeMaster', 
+                level: 10, 
+                currentXP: 2500, 
+                maxXP: 3000, 
+                rank: 1,
+                streak: 15,
+                avatar: '👑'
+            }
+        };
+
+        // Load profile
+        function loadProfile() {
+            const user = checkAuth();
+            if (!user) return;
+
+            const profile = profileData[user.id] || profileData[1];
+
+            document.getElementById('profileName').textContent = profile.name;
+            document.getElementById('displayName').textContent = `"${profile.displayName}"`;
+            document.getElementById('profileLevel').textContent = profile.level;
+            document.getElementById('profileXP').textContent = profile.currentXP.toLocaleString();
+            document.getElementById('profileRank').textContent = `#${profile.rank}`;
+            document.getElementById('streakDays').textContent = profile.streak;
+            document.getElementById('profileAvatar').textContent = profile.avatar;
+
+            const xpPercentage = (profile.currentXP / profile.maxXP * 100).toFixed(1);
+            document.getElementById('xpText').textContent = `${profile.currentXP.toLocaleString()} / ${profile.maxXP.toLocaleString()} XP`;
+            document.getElementById('xpProgressBar').style.width = xpPercentage + '%';
+            document.getElementById('xpProgressBar').textContent = xpPercentage + '%';
+        }
+
+        // Change avatar
+        function changeAvatar() {
+            const avatars = ['⚔️', '👑', '🛡️', '🎨', '⚡', '🔮', '🥷', '✨', '💻', '👸'];
+            const current = document.getElementById('profileAvatar').textContent;
+            const currentIndex = avatars.indexOf(current);
+            const nextIndex = (currentIndex + 1) % avatars.length;
+            document.getElementById('profileAvatar').textContent = avatars[nextIndex];
+            alert('Avatar updated! ✓');
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            loadProfile();
+        });
+
+        console.log('%c👤 Profile Loaded', 'color: #667eea; font-size: 16px; font-weight: bold;');
+    </script>
+</body>
+</html>

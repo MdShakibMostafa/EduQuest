@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Quest - EduQuest</title>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">
+                <span>🎓</span>
+                <span>EduQuest</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="lecturer-dashboard.html">Dashboard</a></li>
+                <li><a href="create-quest.html" class="active">Create Quest</a></li>
+                <li><a href="grade-submission.html">Grade Submissions</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <button class="back-btn" onclick="window.location.href='lecturer-dashboard.html'">
+                ← Back to Dashboard
+            </button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>📝 Create New Quest</h1>
+            <p>Design an engaging assignment for your students</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="form-card">
+            <form id="questForm">
+                <!-- Basic Information -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">📋</span>
+                        Basic Information
+                    </h2>
+
+                    <div class="form-group">
+                        <label class="form-label">Quest Title <span class="required">*</span></label>
+                        <input 
+                            type="text" 
+                            class="form-input" 
+                            id="questTitle"
+                            placeholder="e.g., Database Normalization Master"
+                            required
+                        >
+                        <div class="form-hint">Choose a clear, descriptive title</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Quest Icon <span class="required">*</span></label>
+                        <select class="form-select" id="questIcon" required>
+                            <option value="">Select an icon</option>
+                            <option value="📊">📊 Database</option>
+                            <option value="🌐">🌐 Web Development</option>
+                            <option value="💻">💻 Programming</option>
+                            <option value="🎨">🎨 Design</option>
+                            <option value="🔒">🔒 Security</option>
+                            <option value="📱">📱 Mobile</option>
+                            <option value="🤖">🤖 AI/ML</option>
+                            <option value="🔌">🔌 API</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Category <span class="required">*</span></label>
+                        <select class="form-select" id="category" required>
+                            <option value="">Select category</option>
+                            <option value="database">Database Design</option>
+                            <option value="web">Web Development</option>
+                            <option value="programming">Programming</option>
+                            <option value="algorithms">Algorithms</option>
+                            <option value="networking">Networking</option>
+                            <option value="security">Security</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description <span class="required">*</span></label>
+                        <textarea 
+                            class="form-textarea" 
+                            id="description"
+                            placeholder="Describe the quest objectives, what students will learn, and expected outcomes..."
+                            required
+                        ></textarea>
+                        <div class="form-hint">Provide clear learning objectives and expectations</div>
+                    </div>
+                </div>
+
+                <!-- Quest Configuration -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">⚙️</span>
+                        Quest Configuration
+                    </h2>
+
+                    <div class="form-group">
+                        <label class="form-label">Difficulty Level <span class="required">*</span></label>
+                        <div class="difficulty-options">
+                            <div class="difficulty-option">
+                                <input type="radio" id="easy" name="difficulty" value="easy" required>
+                                <label for="easy" class="difficulty-label">
+                                    <span class="icon">🟢</span>
+                                    Easy
+                                </label>
+                            </div>
+                            <div class="difficulty-option">
+                                <input type="radio" id="medium" name="difficulty" value="medium">
+                                <label for="medium" class="difficulty-label">
+                                    <span class="icon">🟡</span>
+                                    Medium
+                                </label>
+                            </div>
+                            <div class="difficulty-option">
+                                <input type="radio" id="hard" name="difficulty" value="hard">
+                                <label for="hard" class="difficulty-label">
+                                    <span class="icon">🔴</span>
+                                    Hard
+                                </label>
+                            </div>
+                            <div class="difficulty-option">
+                                <input type="radio" id="epic" name="difficulty" value="epic">
+                                <label for="epic" class="difficulty-label">
+                                    <span class="icon">🟣</span>
+                                    Epic
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">XP Reward <span class="required">*</span></label>
+                            <input 
+                                type="number" 
+                                class="form-input" 
+                                id="xpReward"
+                                min="50"
+                                max="1000"
+                                step="50"
+                                placeholder="e.g., 350"
+                                required
+                            >
+                            <div class="form-hint">50-200 (Easy), 200-400 (Medium), 400-600 (Hard), 600+ (Epic)</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Deadline <span class="required">*</span></label>
+                            <input 
+                                type="date" 
+                                class="form-input" 
+                                id="deadline"
+                                required
+                            >
+                            <div class="form-hint">When students must submit by</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Quest Type</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="allowGuild" name="questType">
+                            <label for="allowGuild">Allow Guild Submissions (Collaborative)</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="allowResubmit" name="questType">
+                            <label for="allowResubmit">Allow Resubmission</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Requirements -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">✅</span>
+                        Requirements
+                    </h2>
+
+                    <div class="form-group">
+                        <label class="form-label">Quest Requirements <span class="required">*</span></label>
+                        <textarea 
+                            class="form-textarea" 
+                            id="requirements"
+                            placeholder="List the specific requirements students must complete:
+- Requirement 1
+- Requirement 2
+- Requirement 3"
+                            required
+                        ></textarea>
+                        <div class="form-hint">Use bullet points for clarity</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Prerequisites (Optional)</label>
+                        <select class="form-select" id="prerequisites" multiple>
+                            <option value="">No prerequisites</option>
+                            <option value="1">Database Fundamentals</option>
+                            <option value="2">SQL Basics</option>
+                            <option value="3">HTML/CSS Basics</option>
+                            <option value="4">JavaScript Fundamentals</option>
+                        </select>
+                        <div class="form-hint">Hold Ctrl/Cmd to select multiple</div>
+                    </div>
+                </div>
+
+                <!-- Learning Materials -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">📚</span>
+                        Learning Materials
+                    </h2>
+
+                    <div class="form-group">
+                        <label class="form-label">Upload Materials (Optional)</label>
+                        <div class="file-upload-area" onclick="document.getElementById('fileInput').click()">
+                            <div class="file-upload-icon">📁</div>
+                            <p><strong>Click to upload</strong> or drag and drop</p>
+                            <p style="font-size: 12px; color: #999; margin-top: 5px;">
+                                PDF, DOCX, PPTX, ZIP (Max 50MB)
+                            </p>
+                            <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.zip">
+                        </div>
+                        <div class="file-list" id="fileList"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">External Resources (Optional)</label>
+                        <input 
+                            type="url" 
+                            class="form-input" 
+                            id="resourceUrl"
+                            placeholder="https://example.com/resource"
+                        >
+                        <div class="form-hint">Link to external tutorials, documentation, or references</div>
+                    </div>
+                </div>
+
+                <!-- Grading Rubric -->
+                <div class="form-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">📊</span>
+                        Grading Rubric
+                    </h2>
+
+                    <div class="form-group">
+                        <label class="form-label">Grading Criteria <span class="required">*</span></label>
+                        <textarea 
+                            class="form-textarea" 
+                            id="rubric"
+                            placeholder="Define your grading criteria:
+- Code Quality (30%)
+- Functionality (40%)
+- Documentation (20%)
+- Creativity (10%)"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="xp-calculator">
+                        <strong>XP Award Formula:</strong> Grade (%) × Base XP Reward
+                        <div class="xp-result" id="xpExample">
+                            Example: 85% × 350 XP = 298 XP
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-cancel" onclick="cancelQuest()">
+                        ✕ Cancel
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="saveDraft()">
+                        💾 Save as Draft
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        🚀 Publish Quest
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'lecturer-login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'lecturer-login.html';
+        }
+
+        // File upload handler
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+            
+            if (this.files.length > 0) {
+                Array.from(this.files).forEach((file, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    fileItem.innerHTML = `
+                        <span>📄 ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                        <button type="button" class="remove-file" onclick="removeFile(${index})">Remove</button>
+                    `;
+                    fileList.appendChild(fileItem);
+                });
+            }
+        });
+
+        // Remove file
+        function removeFile(index) {
+            const fileInput = document.getElementById('fileInput');
+            const dt = new DataTransfer();
+            const files = Array.from(fileInput.files);
+            
+            files.forEach((file, i) => {
+                if (i !== index) {
+                    dt.items.add(file);
+                }
+            });
+            
+            fileInput.files = dt.files;
+            fileInput.dispatchEvent(new Event('change'));
+        }
+
+        // Update XP example
+        document.getElementById('xpReward').addEventListener('input', function() {
+            const xp = this.value || 350;
+            document.getElementById('xpExample').textContent = `Example: 85% × ${xp} XP = ${Math.round(xp * 0.85)} XP`;
+        });
+
+        // Form submission (PERSIST QUEST)
+document.getElementById('questForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const currentUser = checkAuth(); // lecturer info
+
+    const quest = {
+        id: Date.now(),                    // unique quest ID
+        title: document.getElementById('questTitle').value,
+        icon: document.getElementById('questIcon').value,
+        category: document.getElementById('category').value,
+        description: document.getElementById('description').value,
+        difficulty: document.querySelector('input[name="difficulty"]:checked').value,
+        xpReward: parseInt(document.getElementById('xpReward').value),
+        deadline: document.getElementById('deadline').value,
+
+        allowGuild: document.getElementById('allowGuild').checked,
+        allowResubmit: document.getElementById('allowResubmit').checked,
+
+        requirements: document.getElementById('requirements').value,
+        rubric: document.getElementById('rubric').value,
+
+        lecturerId: currentUser?.id || null,
+        lecturerName: currentUser?.name || "Lecturer",
+
+        createdAt: new Date().toISOString(),
+        status: "published"               // important for student filtering
+    };
+
+    // 🔐 Load existing quests
+    const quests = JSON.parse(localStorage.getItem('quests')) || [];
+
+    // ➕ Add new quest
+    quests.push(quest);
+
+    // 💾 Save back
+    localStorage.setItem('quests', JSON.stringify(quests));
+
+    console.log('Quest saved:', quest);
+
+    alert('✓ Quest published successfully!\n\nStudents can now see this quest on the Quest Board.');
+
+    setTimeout(() => {
+        window.location.href = 'lecturer-dashboard.html';
+    }, 800);
+});
+
+
+        // Save draft
+        function saveDraft() {
+            alert('💾 Quest saved as draft!\n\nYou can continue editing later.');
+        }
+
+        // Cancel quest
+        function cancelQuest() {
+            if (confirm('Are you sure you want to cancel? All unsaved changes will be lost.')) {
+                window.location.href = 'lecturer-dashboard.html';
+            }
+        }
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('deadline').setAttribute('min', today);
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+
+        console.log('%c📝 Create Quest Loaded', 'color: #f5576c; font-size: 16px; font-weight: bold;');
+    </script>
+</body>
+</html>

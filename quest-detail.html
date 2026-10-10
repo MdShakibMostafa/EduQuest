@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quest Details - EduQuest</title>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">
+                <span>🎮</span>
+                <span>EduQuest</span>
+            </a>
+        </div>
+        <div class="nav-right">
+            <button class="back-btn" onclick="window.history.back()">
+                ← Back
+            </button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Quest Header Card -->
+        <div class="quest-header-card">
+            <div class="quest-top-meta">
+                <div class="quest-icon-large" id="questIcon">📊</div>
+                <div class="quest-badges">
+                    <span class="difficulty-badge difficulty-hard" id="difficultyBadge">HARD</span>
+                    <span class="xp-badge-large">⭐ <span id="xpReward">350</span> XP</span>
+                </div>
+            </div>
+
+            <h1 class="quest-title-large" id="questTitle">Database Normalization Master</h1>
+            <span class="quest-category-large" id="questCategory">📚 Database Design</span>
+
+            <div class="quest-meta-grid">
+                <div class="meta-box">
+                    <div class="meta-icon">👤</div>
+                    <div class="meta-content">
+                        <h4>Lecturer</h4>
+                        <p id="lecturerName">Dr. Sarah Chen</p>
+                    </div>
+                </div>
+
+                <div class="meta-box">
+                    <div class="meta-icon">⏰</div>
+                    <div class="meta-content">
+                        <h4>Deadline</h4>
+                        <p id="deadline">Due in 3 days</p>
+                    </div>
+                </div>
+
+                <div class="meta-box">
+                    <div class="meta-icon">👥</div>
+                    <div class="meta-content">
+                        <h4>Enrolled</h4>
+                        <p id="enrolled">32 students</p>
+                    </div>
+                </div>
+
+                <div class="meta-box">
+                    <div class="meta-icon">🔥</div>
+                    <div class="meta-content">
+                        <h4>Popularity</h4>
+                        <p id="popularity">85%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Left Column -->
+            <div>
+                <!-- Description Card -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">📝</span>
+                        <h2>Quest Description</h2>
+                    </div>
+                    <p class="description-text" id="questDescription">
+                        Master the art of database normalization! In this challenging quest, you'll learn to design efficient database schemas by applying normalization principles up to Third Normal Form (3NF). You'll work with a real-world university management system scenario, identifying functional dependencies, eliminating redundancies, and ensuring data integrity.
+                    </p>
+                    <p class="description-text">
+                        By the end of this quest, you'll be able to confidently design normalized databases that are optimized for performance, maintainability, and scalability. This is an essential skill for any aspiring database administrator or backend developer.
+                    </p>
+                </div>
+
+                <!-- Requirements Card -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">✅</span>
+                        <h2>Requirements</h2>
+                    </div>
+                    <ul class="requirements-list">
+                        <li>Create an Entity-Relationship Diagram (ERD) for the university system</li>
+                        <li>Identify all functional dependencies in the system</li>
+                        <li>Normalize the database to Third Normal Form (3NF)</li>
+                        <li>Provide detailed explanations for each normalization step</li>
+                        <li>Submit SQL CREATE TABLE statements for your final design</li>
+                        <li>Include sample data for at least 5 records per table</li>
+                    </ul>
+                </div>
+
+                <!-- Progress Card (Only if accepted) -->
+                <div class="content-card" id="progressCard" style="display: none;">
+                    <div class="card-header">
+                        <span class="card-header-icon">📊</span>
+                        <h2>Your Progress</h2>
+                    </div>
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span style="font-weight: 600; color: #333;">Quest Progress</span>
+                            <span style="font-weight: 600; color: #667eea;" id="progressPercent">75%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 75%">75%</div>
+                        </div>
+                        <p style="margin-top: 15px; color: #666; font-size: 14px;">
+                            ⏱️ Time spent: <strong>8 hours 32 minutes</strong><br>
+                            📅 Started: 5 days ago
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Submission Card (Only if accepted) -->
+                <div class="content-card" id="submissionCard" style="display: none;">
+                    <div class="card-header">
+                        <span class="card-header-icon">📤</span>
+                        <h2>Submit Your Work</h2>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <span>⚠️</span>
+                        <span>Make sure all requirements are met before submitting. You can resubmit if your lecturer allows it.</span>
+                    </div>
+
+                    <form class="submission-form" id="submissionForm">
+                        <div class="form-group">
+                            <label for="submissionFiles">📎 Upload Files *</label>
+                            <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                                <div class="file-upload-icon">📁</div>
+                                <p><strong>Click to upload</strong> or drag and drop</p>
+                                <p style="font-size: 12px; color: #999; margin-top: 5px;">
+                                    ZIP, PDF, SQL, or DOC (Max 50MB)
+                                </p>
+                                <input type="file" id="fileInput" multiple accept=".zip,.pdf,.sql,.doc,.docx">
+                                <div id="fileList" style="margin-top: 10px; text-align: left;"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="submissionNotes">📝 Submission Notes (Optional)</label>
+                            <textarea 
+                                class="form-control" 
+                                id="submissionNotes"
+                                placeholder="Add any additional comments or notes for your lecturer..."
+                            ></textarea>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button type="button" class="btn-secondary" onclick="saveDraft()">
+                                💾 Save Draft
+                            </button>
+                            <button type="submit" class="btn-primary">
+                                🚀 Submit Quest
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div>
+                <!-- Lecturer Info Card -->
+                <div class="sidebar-card lecturer-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">👨‍🏫</span>
+                        <h2>Quest Master</h2>
+                    </div>
+                    <div class="lecturer-avatar">🎓</div>
+                    <div class="lecturer-name" id="lecturerNameSide">Dr. Sarah Chen</div>
+                    <div class="lecturer-title">Associate Professor</div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-value">24</span>
+                            <span class="stat-label">Quests Created</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">4.8</span>
+                            <span class="stat-label">Rating</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prerequisites Card -->
+                <div class="sidebar-card" id="prerequisitesCard">
+                    <div class="card-header">
+                        <span class="card-header-icon">🔒</span>
+                        <h2>Prerequisites</h2>
+                    </div>
+                    <div class="prerequisite-item completed">
+                        <span>✓</span>
+                        <span>Database Fundamentals</span>
+                    </div>
+                    <div class="prerequisite-item completed">
+                        <span>✓</span>
+                        <span>SQL Basics</span>
+                    </div>
+                </div>
+
+                <!-- Quest Stats Card -->
+                <div class="sidebar-card">
+                    <div class="card-header">
+                        <span class="card-header-icon">📈</span>
+                        <h2>Quest Stats</h2>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-value">87%</span>
+                            <span class="stat-label">Pass Rate</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">12h</span>
+                            <span class="stat-label">Avg. Time</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">32</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">15</span>
+                            <span class="stat-label">In Progress</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Card (Only if not accepted) -->
+                <div class="sidebar-card" id="actionCard">
+                    <button class="btn-primary" style="width: 100%;" onclick="acceptQuest()">
+                        ⚔️ Accept Quest
+                    </button>
+                    <p style="text-align: center; margin-top: 15px; font-size: 13px; color: #666;">
+                        By accepting, this quest will be added to your active quests list.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get quest ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const questId = urlParams.get('id') || 1;
+
+        // Check authentication
+        function checkAuth() {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'student-login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'student-login.html';
+        }
+
+        // Mock quest data
+        const questData = {
+            1: {
+                icon: '📊',
+                title: 'Database Normalization Master',
+                category: 'Database Design',
+                difficulty: 'hard',
+                xpReward: 350,
+                lecturer: 'Dr. Sarah Chen',
+                deadline: 'Due in 3 days',
+                enrolled: 32,
+                popularity: 85,
+                accepted: true,
+                progress: 75
+            },
+            2: {
+                icon: '🌐',
+                title: 'Build a Portfolio Website',
+                category: 'Web Development',
+                difficulty: 'medium',
+                xpReward: 250,
+                lecturer: 'Prof. Ahmad Rahman',
+                deadline: 'Due in 5 days',
+                enrolled: 45,
+                popularity: 92,
+                accepted: true,
+                progress: 40
+            },
+            3: {
+                icon: '💾',
+                title: 'SQL Query Mastery',
+                category: 'Database Design',
+                difficulty: 'hard',
+                xpReward: 400,
+                lecturer: 'Dr. Sarah Chen',
+                deadline: 'Due in 1 week',
+                enrolled: 28,
+                popularity: 78,
+                accepted: false,
+                progress: 0
+            }
+        };
+
+        // Load quest details
+        function loadQuestDetails() {
+            const quest = questData[questId] || questData[1];
+
+            // Update quest header
+            document.getElementById('questIcon').textContent = quest.icon;
+            document.getElementById('questTitle').textContent = quest.title;
+            document.getElementById('questCategory').textContent = '📚 ' + quest.category;
+            document.getElementById('difficultyBadge').textContent = quest.difficulty.toUpperCase();
+            document.getElementById('difficultyBadge').className = `difficulty-badge difficulty-${quest.difficulty}`;
+            document.getElementById('xpReward').textContent = quest.xpReward;
+            document.getElementById('lecturerName').textContent = quest.lecturer;
+            document.getElementById('lecturerNameSide').textContent = quest.lecturer;
+            document.getElementById('deadline').textContent = quest.deadline;
+            document.getElementById('enrolled').textContent = quest.enrolled + ' students';
+            document.getElementById('popularity').textContent = quest.popularity + '%';
+
+            // Show/hide cards based on acceptance status
+            if (quest.accepted) {
+                document.getElementById('progressCard').style.display = 'block';
+                document.getElementById('submissionCard').style.display = 'block';
+                document.getElementById('actionCard').style.display = 'none';
+                document.getElementById('progressPercent').textContent = quest.progress + '%';
+                document.getElementById('progressFill').style.width = quest.progress + '%';
+                document.getElementById('progressFill').textContent = quest.progress + '%';
+            } else {
+                document.getElementById('progressCard').style.display = 'none';
+                document.getElementById('submissionCard').style.display = 'none';
+                document.getElementById('actionCard').style.display = 'block';
+            }
+        }
+
+        // Accept quest
+        function acceptQuest() {
+            if (confirm('Are you sure you want to accept this quest? It will be added to your active quests.')) {
+                alert('✓ Quest accepted successfully! You can now start working on it.');
+                // Update quest status (would normally update database)
+                questData[questId].accepted = true;
+                loadQuestDetails();
+            }
+        }
+
+        // Save draft
+        function saveDraft() {
+            alert('💾 Draft saved successfully! You can continue working on it later.');
+        }
+
+        // Handle file upload display
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+            
+            if (this.files.length > 0) {
+                fileList.innerHTML = '<strong>Selected files:</strong><br>';
+                Array.from(this.files).forEach(file => {
+                    fileList.innerHTML += `<div style="padding: 5px; background: #e8f5e9; border-radius: 5px; margin-top: 5px;">
+                        ✓ ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)
+                    </div>`;
+                });
+            }
+        });
+
+        // Handle submission
+        document.getElementById('submissionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (document.getElementById('fileInput').files.length === 0) {
+                alert('⚠️ Please upload at least one file before submitting.');
+                return;
+            }
+
+            if (confirm('🚀 Are you sure you want to submit this quest? Make sure all requirements are met.')) {
+                alert('✓ Quest submitted successfully! Your lecturer will review it soon.\n\n🎉 You earned 350 XP!');
+                setTimeout(() => {
+                    window.location.href = 'my-quests.html';
+                }, 1000);
+            }
+        });
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            loadQuestDetails();
+        });
+
+        console.log('%c🎯 Quest Detail Loaded', 'color: #667eea; font-size: 16px; font-weight: bold;');
+        console.log(`%cQuest ID: ${questId}`, 'color: #764ba2; font-size: 14px;');
+    </script>
+</body>
+</html>

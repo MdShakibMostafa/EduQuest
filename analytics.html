@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - EduQuest</title>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">
+                <span>🎓</span>
+                <span>EduQuest</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="lecturer-dashboard.html">Dashboard</a></li>
+                <li><a href="create-quest.html">Create Quest</a></li>
+                <li><a href="grade-submission.html">Grade Submissions</a></li>
+                <li><a href="analytics.html" class="active">Analytics</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <button class="back-btn" onclick="window.location.href='lecturer-dashboard.html'">
+                ← Back
+            </button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>📊 Analytics Dashboard</h1>
+            <div class="filter-controls">
+                <select class="filter-select" id="timeFilter">
+                    <option value="week">This Week</option>
+                    <option value="month" selected>This Month</option>
+                    <option value="semester">This Semester</option>
+                    <option value="year">This Year</option>
+                </select>
+                <select class="filter-select" id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="database">Database Design</option>
+                    <option value="web">Web Development</option>
+                    <option value="programming">Programming</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">👥</div>
+                    <span class="stat-trend up">+12%</span>
+                </div>
+                <div class="stat-value">125</div>
+                <div class="stat-label">Active Students</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">✅</div>
+                    <span class="stat-trend up">+8%</span>
+                </div>
+                <div class="stat-value">87%</div>
+                <div class="stat-label">Avg. Completion Rate</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">📊</div>
+                    <span class="stat-trend up">+5%</span>
+                </div>
+                <div class="stat-value">84%</div>
+                <div class="stat-label">Avg. Grade</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">⏰</div>
+                    <span class="stat-trend down">-3%</span>
+                </div>
+                <div class="stat-value">92%</div>
+                <div class="stat-label">On-Time Submissions</div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Left Column -->
+            <div>
+                <!-- Submission Trends Chart -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <span class="card-header-icon">📈</span>
+                            <h2>Submission Trends</h2>
+                        </div>
+                        <button class="export-btn" onclick="exportData('submissions')">📥 Export</button>
+                    </div>
+                    <div class="chart-container">
+                        <div class="bar-chart">
+                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                <div class="bar" style="height: 60%;">
+                                    <div class="bar-value">45</div>
+                                </div>
+                                <div class="bar-label">Mon</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                <div class="bar" style="height: 75%;">
+                                    <div class="bar-value">56</div>
+                                </div>
+                                <div class="bar-label">Tue</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                <div class="bar" style="height: 85%;">
+                                    <div class="bar-value">64</div>
+                                </div>
+                                <div class="bar-label">Wed</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                <div class="bar" style="height: 70%;">
+                                    <div class="bar-value">52</div>
+                                </div>
+                                <div class="bar-label">Thu</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                <div class="bar" style="height: 95%;">
+                                    <div class="bar-value">72</div>
+                                </div>
+                                <div class="bar-label">Fri</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                <div class="bar" style="height: 40%;">
+                                    <div class="bar-value">30</div>
+                                </div>
+                                <div class="bar-label">Sat</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                                <div class="bar" style="height: 35%;">
+                                    <div class="bar-value">26</div>
+                                </div>
+                                <div class="bar-label">Sun</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quest Performance Table -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <span class="card-header-icon">🎯</span>
+                            <h2>Quest Performance</h2>
+                        </div>
+                        <button class="export-btn" onclick="exportData('quests')">📥 Export</button>
+                    </div>
+                    <table class="performance-table">
+                        <thead>
+                            <tr>
+                                <th>Quest Name</th>
+                                <th>Enrolled</th>
+                                <th>Completed</th>
+                                <th>Avg. Grade</th>
+                                <th>Completion %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="quest-name">Database Normalization Master</div>
+                                    <div class="quest-category">Database Design</div>
+                                </td>
+                                <td>32</td>
+                                <td>28</td>
+                                <td><strong style="color: #4caf50;">88%</strong></td>
+                                <td>87.5%</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="quest-name">SQL Query Mastery</div>
+                                    <div class="quest-category">Database Design</div>
+                                </td>
+                                <td>28</td>
+                                <td>25</td>
+                                <td><strong style="color: #4caf50;">85%</strong></td>
+                                <td>89.3%</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="quest-name">Database Design Fundamentals</div>
+                                    <div class="quest-category">Database Design</div>
+                                </td>
+                                <td>45</td>
+                                <td>42</td>
+                                <td><strong style="color: #4caf50;">82%</strong></td>
+                                <td>93.3%</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="quest-name">ERD Design Workshop</div>
+                                    <div class="quest-category">Database Design</div>
+                                </td>
+                                <td>38</td>
+                                <td>35</td>
+                                <td><strong style="color: #4caf50;">90%</strong></td>
+                                <td>92.1%</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="quest-name">Advanced SQL Queries</div>
+                                    <div class="quest-category">Database Design</div>
+                                </td>
+                                <td>22</td>
+                                <td>18</td>
+                                <td><strong style="color: #ff9800;">78%</strong></td>
+                                <td>81.8%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div>
+                <!-- Category Performance -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <span class="card-header-icon">📚</span>
+                            <h2>Category Performance</h2>
+                        </div>
+                    </div>
+                    <div class="progress-list">
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-name">Database Design</span>
+                                <span class="progress-value">92%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 92%"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-name">Web Development</span>
+                                <span class="progress-value">85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-name">Programming</span>
+                                <span class="progress-value">88%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 88%"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-name">Algorithms</span>
+                                <span class="progress-value">78%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 78%"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span class="progress-name">Security</span>
+                                <span class="progress-value">81%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 81%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Performers -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <span class="card-header-icon">🏆</span>
+                            <h2>Top Performers</h2>
+                        </div>
+                    </div>
+                    <div class="performers-list">
+                        <div class="performer-item">
+                            <div class="performer-rank">#1</div>
+                            <div class="performer-avatar">👑</div>
+                            <div class="performer-info">
+                                <div class="performer-name">Sarah Williams</div>
+                                <div class="performer-stats">25 quests • 95% avg</div>
+                            </div>
+                            <div class="performer-score">2,500</div>
+                        </div>
+
+                        <div class="performer-item">
+                            <div class="performer-rank">#2</div>
+                            <div class="performer-avatar">⚔️</div>
+                            <div class="performer-info">
+                                <div class="performer-name">Alex Johnson</div>
+                                <div class="performer-stats">12 quests • 88% avg</div>
+                            </div>
+                            <div class="performer-score">1,850</div>
+                        </div>
+
+                        <div class="performer-item">
+                            <div class="performer-rank">#3</div>
+                            <div class="performer-avatar">🛡️</div>
+                            <div class="performer-info">
+                                <div class="performer-name">Mike Chen</div>
+                                <div class="performer-stats">10 quests • 85% avg</div>
+                            </div>
+                            <div class="performer-score">1,200</div>
+                        </div>
+
+                        <div class="performer-item">
+                            <div class="performer-rank">#4</div>
+                            <div class="performer-avatar">🎨</div>
+                            <div class="performer-info">
+                                <div class="performer-name">Emma Davis</div>
+                                <div class="performer-stats">8 quests • 82% avg</div>
+                            </div>
+                            <div class="performer-score">950</div>
+                        </div>
+
+                        <div class="performer-item">
+                            <div class="performer-rank">#5</div>
+                            <div class="performer-avatar">⚡</div>
+                            <div class="performer-info">
+                                <div class="performer-name">John Smith</div>
+                                <div class="performer-stats">6 quests • 80% avg</div>
+                            </div>
+                            <div class="performer-score">600</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'lecturer-login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'lecturer-login.html';
+        }
+
+        // Export data
+        function exportData(type) {
+            alert(`📥 Exporting ${type} data to CSV...\n\nDownload will start shortly.`);
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+
+        console.log('%c📊 Analytics Dashboard Loaded', 'color: #f5576c; font-size: 16px; font-weight: bold;');
+        console.log('%cShowing data for: This Month', 'color: #f093fb; font-size: 14px;');
+    </script>
+</body>
+</html>

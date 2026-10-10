@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - EduQuest</title>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="index.html" class="logo">
+                <span>🎮</span>
+                <span>EduQuest</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="student-dashboard.html">Dashboard</a></li>
+                <li><a href="quest-board.html">Quest Board</a></li>
+                <li><a href="my-quests.html">My Quests</a></li>
+                <li><a href="guild.html">Guild</a></li>
+                <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <div class="user-profile" onclick="window.location.href='profile.html'">
+                <div class="user-avatar">⚔️</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">Loading...</div>
+                    <div class="user-level" id="userLevel">Level --</div>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>🏆 Leaderboard</h1>
+            <p>Compete with fellow adventurers and climb the ranks!</p>
+        </div>
+
+        <!-- Tabs Container -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab active" data-tab="players" onclick="switchTab('players')">
+                    👤 Players
+                </button>
+                <button class="tab" data-tab="guilds" onclick="switchTab('guilds')">
+                    ⚔️ Guilds
+                </button>
+            </div>
+        </div>
+
+        <!-- Players Leaderboard -->
+        <div id="playersLeaderboard">
+            <!-- Podium Section -->
+            <div class="podium-section">
+                <div class="podium-container">
+                    <!-- Second Place -->
+                    <div class="podium-item second">
+                        <div class="podium-avatar">
+                            <div class="podium-rank">🥈</div>
+                            ⚔️
+                        </div>
+                        <div class="podium-name">Alex Johnson</div>
+                        <div class="podium-level">Level 7</div>
+                        <div class="podium-xp">1,850 XP</div>
+                        <div class="podium-stand"></div>
+                    </div>
+
+                    <!-- First Place -->
+                    <div class="podium-item first">
+                        <div class="podium-avatar">
+                            <div class="podium-rank">🥇</div>
+                            👑
+                        </div>
+                        <div class="podium-name">Sarah Williams</div>
+                        <div class="podium-level">Level 10</div>
+                        <div class="podium-xp">2,500 XP</div>
+                        <div class="podium-stand"></div>
+                    </div>
+
+                    <!-- Third Place -->
+                    <div class="podium-item third">
+                        <div class="podium-avatar">
+                            <div class="podium-rank">🥉</div>
+                            🛡️
+                        </div>
+                        <div class="podium-name">Mike Chen</div>
+                        <div class="podium-level">Level 6</div>
+                        <div class="podium-xp">1,200 XP</div>
+                        <div class="podium-stand"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rankings Section -->
+            <div class="rankings-section">
+                <div class="filter-bar">
+                    <select class="filter-select" id="timeFilter" onchange="filterRankings()">
+                        <option value="all-time">All Time</option>
+                        <option value="this-month">This Month</option>
+                        <option value="this-week">This Week</option>
+                    </select>
+                    <select class="filter-select" id="categoryFilter" onchange="filterRankings()">
+                        <option value="all">All Categories</option>
+                        <option value="database">Database Design</option>
+                        <option value="web">Web Development</option>
+                        <option value="programming">Programming</option>
+                    </select>
+                </div>
+
+                <table class="rankings-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Level</th>
+                            <th>XP</th>
+                            <th>Quests</th>
+                            <th>Badges</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rankingsTableBody">
+                        <!-- Rankings will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Guilds Leaderboard -->
+        <div id="guildsLeaderboard" style="display: none;">
+            <div class="rankings-section">
+                <div class="guild-rankings" id="guildRankings">
+                    <!-- Guild cards will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'student-login.html';
+                return null;
+            }
+            return JSON.parse(currentUser);
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'student-login.html';
+        }
+
+        // Mock player rankings data
+        const playerRankings = [
+            { id: 1, rank: 1, name: 'Sarah Williams', displayName: 'CodeMaster', level: 10, xp: 2500, quests: 25, badges: 8, avatar: '👑' },
+            { id: 2, rank: 2, name: 'Alex Johnson', displayName: 'DragonSlayer', level: 7, xp: 1850, quests: 12, badges: 5, avatar: '⚔️' },
+            { id: 3, rank: 3, name: 'Mike Chen', displayName: 'BugHunter', level: 6, xp: 1200, quests: 10, badges: 4, avatar: '🛡️' },
+            { id: 4, rank: 4, name: 'Emma Davis', displayName: 'PixelQueen', level: 5, xp: 950, quests: 8, badges: 3, avatar: '🎨' },
+            { id: 5, rank: 5, name: 'John Smith', displayName: 'SpeedDemon', level: 4, xp: 600, quests: 6, badges: 2, avatar: '⚡' },
+            { id: 6, rank: 6, name: 'Lisa Wong', displayName: 'DataWizard', level: 8, xp: 1950, quests: 18, badges: 6, avatar: '🔮' },
+            { id: 7, rank: 7, name: 'David Kim', displayName: 'CodeNinja', level: 7, xp: 1700, quests: 15, badges: 5, avatar: '🥷' },
+            { id: 8, rank: 8, name: 'Anna Garcia', displayName: 'DevGoddess', level: 6, xp: 1450, quests: 13, badges: 4, avatar: '✨' },
+            { id: 9, rank: 9, name: 'James Taylor', displayName: 'ByteMaster', level: 5, xp: 890, quests: 9, badges: 3, avatar: '💻' },
+            { id: 10, rank: 10, name: 'Sophie Brown', displayName: 'QueryQueen', level: 4, xp: 720, quests: 7, badges: 2, avatar: '👸' }
+        ];
+
+        // Mock guild rankings data
+        const guildRankings = [
+            { rank: 1, name: 'Digital Nomads', icon: '🌐', members: 8, totalXP: 12500, quests: 45, successRate: 92 },
+            { rank: 2, name: 'Byte Busters', icon: '💾', members: 6, totalXP: 11200, quests: 38, successRate: 89 },
+            { rank: 3, name: 'The Code Warriors', icon: '⚔️', members: 5, totalXP: 9800, quests: 32, successRate: 87 },
+            { rank: 4, name: 'Pixel Pioneers', icon: '🎨', members: 7, totalXP: 8900, quests: 30, successRate: 85 },
+            { rank: 5, name: 'Data Dragons', icon: '🐉', members: 6, totalXP: 8200, quests: 28, successRate: 83 },
+            { rank: 6, name: 'Tech Titans', icon: '⚡', members: 5, totalXP: 7500, quests: 25, successRate: 81 }
+        ];
+
+        let currentTab = 'players';
+        const currentUserId = 2; // Alex Johnson
+
+        // Load user data
+        function loadUserData() {
+            const user = checkAuth();
+            if (!user) return;
+
+            const studentData = {
+                1: { name: 'Alex Johnson', displayName: 'DragonSlayer', level: 7 },
+                2: { name: 'Sarah Williams', displayName: 'CodeMaster', level: 10 },
+                3: { name: 'Mike Chen', displayName: 'BugHunter', level: 6 },
+                4: { name: 'Emma Davis', displayName: 'PixelQueen', level: 5 },
+                5: { name: 'John Smith', displayName: 'SpeedDemon', level: 4 }
+            };
+
+            const data = studentData[user.id] || studentData[1];
+
+            document.getElementById('userName').textContent = data.displayName;
+            document.getElementById('userLevel').textContent = `Level ${data.level}`;
+        }
+
+        // Switch tab
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+
+            // Show/hide content
+            if (tab === 'players') {
+                document.getElementById('playersLeaderboard').style.display = 'block';
+                document.getElementById('guildsLeaderboard').style.display = 'none';
+            } else {
+                document.getElementById('playersLeaderboard').style.display = 'none';
+                document.getElementById('guildsLeaderboard').style.display = 'block';
+                renderGuildRankings();
+            }
+        }
+
+        // Filter rankings
+        function filterRankings() {
+            renderPlayerRankings();
+        }
+
+        // Render player rankings
+        function renderPlayerRankings() {
+            const tbody = document.getElementById('rankingsTableBody');
+            
+            tbody.innerHTML = playerRankings.map(player => `
+                <tr class="${player.id === currentUserId ? 'current-user' : ''}" onclick="window.location.href='profile.html?id=${player.id}'">
+                    <td class="rank-cell ${player.rank <= 3 ? 'top-3' : ''}">
+                        ${player.rank <= 3 ? (player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : '🥉') : player.rank}
+                    </td>
+                    <td>
+                        <div class="player-cell">
+                            <div class="player-avatar-small">${player.avatar}</div>
+                            <div class="player-info">
+                                <h3>${player.displayName}</h3>
+                                <p>${player.name}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="level-badge">Level ${player.level}</span>
+                    </td>
+                    <td class="xp-cell">${player.xp.toLocaleString()} XP</td>
+                    <td class="quests-cell">${player.quests} quests</td>
+                    <td>
+                        <span class="badge-icon" title="${player.badges} badges">
+                            ${'🏆'.repeat(Math.min(player.badges, 3))}
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render guild rankings
+        function renderGuildRankings() {
+            const container = document.getElementById('guildRankings');
+            
+            container.innerHTML = guildRankings.map(guild => `
+                <div class="guild-card ${guild.rank === 1 ? 'rank-1' : ''}" onclick="window.location.href='guild.html?id=${guild.rank}'">
+                    <div class="guild-header">
+                        <div class="guild-rank">#${guild.rank}</div>
+                        <div class="guild-icon">${guild.icon}</div>
+                    </div>
+                    <div class="guild-name">${guild.name}</div>
+                    <div style="color: #999; font-size: 14px; margin-bottom: 15px;">
+                        👥 ${guild.members} Members
+                    </div>
+                    <div class="guild-stats">
+                        <div class="guild-stat">
+                            <div class="guild-stat-value">${guild.totalXP.toLocaleString()}</div>
+                            <div class="guild-stat-label">Total XP</div>
+                        </div>
+                        <div class="guild-stat">
+                            <div class="guild-stat-value">${guild.quests}</div>
+                            <div class="guild-stat-label">Quests</div>
+                        </div>
+                        <div class="guild-stat">
+                            <div class="guild-stat-value">${guild.successRate}%</div>
+                            <div class="guild-stat-label">Success Rate</div>
+                        </div>
+                        <div class="guild-stat">
+                            <div class="guild-stat-value">${(guild.totalXP / guild.members).toFixed(0)}</div>
+                            <div class="guild-stat-label">Avg XP</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            renderPlayerRankings();
+        });
+
+        console.log('%c🏆 Leaderboard Loaded', 'color: #667eea; font-size: 16px; font-weight: bold;');
+        console.log(`%c${playerRankings.length} players • ${guildRankings.length} guilds`, 'color: #764ba2; font-size: 14px;');
+    </script>
+</body>
+</html>
